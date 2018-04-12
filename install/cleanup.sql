@@ -1,5 +1,7 @@
 drop package group_management;
 
+drop view v_soldiers;
+drop view v_group_soldiers;
 drop view v_groups;
 drop view v_group_names;
 

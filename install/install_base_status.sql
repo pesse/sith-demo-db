@@ -43,7 +43,11 @@ commit;
 -- Views
 @../dbobjects/views/v_group_names.sql
 @../dbobjects/views/v_groups.sql
+@../dbobjects/triggers/trg_save_v_groups.sql
 @../dbobjects/views/v_group_soldiers.sql
+@../dbobjects/views/v_soldiers.sql
+@../dbobjects/triggers/trg_save_v_soldiers.sql
+
 
 -- packages
 @../dbobjects/packages/group_management.pks
