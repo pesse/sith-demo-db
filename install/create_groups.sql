@@ -14,10 +14,13 @@ declare
       insert into groups (ID, GROUP_TYPE_FK, PARENT_FK, HONOR_NAME) values ( l_id, i_group_type, i_parent, null);
 
       begin
-        select first_value(id) over (order by min_size desc),
-          first_value(min_size+round((max_size-min_size)/2)) over (order by min_size desc)
-        into l_sub_type, l_sub_avg_size
-        from group_types where min_size < l_group_min_size fetch first 1 rows only;
+	  select sub_type, sub_avg_size into l_sub_type, l_sub_avg_size
+	  from (
+        select first_value(id) over (order by min_size desc) sub_type,
+               first_value(min_size+round((max_size-min_size)/2)) over (order by min_size desc) sub_avg_size,
+			   rownum rn
+        from group_types where min_size < l_group_min_size 
+		 ) where rn = 1;
 
         l_subgroups := ceil(l_group_min_size / l_sub_avg_size);
 

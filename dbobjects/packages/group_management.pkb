@@ -5,8 +5,10 @@ create or replace package body group_management as
   as
     l_result int;
     begin
+      select id into l_result from (
       select
-        s.id soldier_id into l_result
+        s.id,
+        ROW_NUMBER() OVER (ORDER BY sr.hierarchy_level desc) rn
       from
         soldiers s
         inner join soldier_ranks sr on s.rank_fk = sr.id
@@ -14,8 +16,8 @@ create or replace package body group_management as
       where
         member2.group_fk is null
         and sr.hierarchy_level between i_min_rank and i_max_rank
-      order by sr.hierarchy_level desc
-      fetch first 1 rows only;
+      )
+      where rn = 1;
 
       return l_result;
 
@@ -81,6 +83,6 @@ create or replace package body group_management as
       fill_group_leaders();
       fill_group_members();
     end;
-  
+
 end;
 /
