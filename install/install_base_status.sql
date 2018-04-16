@@ -52,6 +52,8 @@ commit;
 -- packages
 @../dbobjects/packages/group_management.pks
 @../dbobjects/packages/group_management.pkb
+@../dbobjects/procedures/get_soldier_group_name.fnc
+
 
 
 
