@@ -20,23 +20,6 @@ create or replace package body ut_groups as
 
   procedure fail_on_duplicate_groupnr
   as
-    l_code int;
-    begin
-
-      begin
-        update groups set nr_in_group = 1 where id = -4;
-        ut.fail('We expect an exception to be thrown!');
-      exception
-        when others then
-          l_code := sqlcode;
-      end;
-
-      ut.expect(l_code).to_equal(-1);
-
-    end;
-
-  procedure fail_on_duplicate_groupnr2
-  as
     begin
       update groups set nr_in_group = 1 where id = -4;
     end;
