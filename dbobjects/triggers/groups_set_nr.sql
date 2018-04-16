@@ -12,7 +12,7 @@ begin
     declare
       l_max_nr int;
     begin
-      select max(nr_in_group) into l_max_nr from groups where parent_fk is null;
+      select max(nr_in_group) into l_max_nr from groups where parent_fk is null and group_type_fk = :new.group_type_fk;
       :new.nr_in_group := nvl(l_max_nr,0)+1;
     end;
   end if;
