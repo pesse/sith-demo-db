@@ -19,5 +19,29 @@ create or replace package body group_util as
       end if;
 
     end;
+
+  function get_group_name ( i_group_id in integer )
+    return varchar2 result_cache
+  as
+    l_nr_in_group int;
+    l_type_label varchar2(200);
+    l_honor_name varchar2(200);
+    begin
+
+      select
+        g.nr_in_group,
+        gt.label,
+        g.honor_name
+      into
+        l_nr_in_group,
+        l_type_label,
+        l_honor_name
+      from groups g
+        inner join group_types gt on g.group_type_fk = gt.id
+      where g.id = i_group_id;
+
+      return get_group_name(l_nr_in_group, l_type_label, l_honor_name);
+
+    end;
 end;
 /
