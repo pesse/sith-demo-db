@@ -43,5 +43,20 @@ create or replace package body group_util as
       return get_group_name(l_nr_in_group, l_type_label, l_honor_name);
 
     end;
+
+  function count_group_members( i_group_id in integer )
+    return integer
+  as
+    l_count int;
+    begin
+      select count(distinct gm.soldier_fk)
+      into l_count
+      from groups g
+        left outer join group_members gm on g.id = gm.group_fk
+      connect by prior g.id = g.parent_fk
+      start with g.id = i_group_id;
+
+      return l_count;
+    end;
 end;
 /

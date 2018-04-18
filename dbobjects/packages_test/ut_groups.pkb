@@ -1,6 +1,6 @@
 create or replace package body ut_groups as
 
-  procedure check_group_row( i_id in integer, i_expected_group_name in varchar2, i_expected_full_name in varchar2 )
+  procedure check_group_names( i_id in integer, i_expected_group_name in varchar2, i_expected_full_name in varchar2 )
   as
     l_actual v_groups%rowtype;
     begin
@@ -13,9 +13,9 @@ create or replace package body ut_groups as
   procedure select_fire_unit
   as
     begin
-      check_group_row(-3, '1st Fire team', '1st Fire team of 1st Squad of 1st Platoon');
-      check_group_row(-4, 'utPLSQL team', '2nd Fire team of 1st Squad of 1st Platoon');
-      check_group_row(-5, '3rd Fire team', '3rd Fire team of 1st Squad of 1st Platoon');
+      check_group_names(-3, '1st Fire team', '1st Fire team of 1st Squad of 1st Platoon');
+      check_group_names(-4, 'utPLSQL team', '2nd Fire team of 1st Squad of 1st Platoon');
+      check_group_names(-5, '3rd Fire team', '3rd Fire team of 1st Squad of 1st Platoon');
     end;
 
   procedure fail_on_duplicate_groupnr
