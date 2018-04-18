@@ -4,6 +4,11 @@ create or replace package body group_util as
   as
     l_mod int := mod(i_number,10);
     begin
+      -- special handling for 11th and 12th
+      if mod(i_number, 100) in (11, 12) then
+        return to_char(i_number) || 'th';
+      end if;
+
       return to_char(i_number) || case l_mod when 1 then 'st' when 2 then 'nd' when 3 then 'rd' else 'th' end;
     end;
 
