@@ -18,12 +18,6 @@ create or replace package body ut_groups as
       check_group_names(-5, '3rd Fire team', '3rd Fire team of 1st Squad of 1st Platoon');
     end;
 
-  procedure fail_on_duplicate_groupnr
-  as
-    begin
-      update groups set nr_in_group = 1 where id = -4;
-    end;
-
   procedure setup
   as
     begin

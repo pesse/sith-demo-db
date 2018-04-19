@@ -22,7 +22,14 @@ create or replace package body ut_group_factory as
         .to_( be_between(l_actual_group_row.min_size, l_actual_group_row.max_size));
 
     end;
-  
+
+  procedure fail_no_soldiers_available
+  as
+    l_squad_id integer;
+    begin
+      l_squad_id := group_factory.CREATE_FILLED_GROUP(null, 2);
+    end;
+
   procedure setup_soldiers
   as
     begin
@@ -39,6 +46,16 @@ create or replace package body ut_group_factory as
             where hierarchy_level <= 13;
       end loop;
 
+    end;
+
+  procedure delete_available_soldiers
+  as
+    begin
+
+      -- Make sure we have really no available soldiers
+      delete from soldiers where
+        rank_fk in (select id from soldier_ranks where hierarchy_level <= 13)
+        and id not in (select soldier_fk from group_members);
     end;
 end;
 /
