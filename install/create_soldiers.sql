@@ -1,7 +1,7 @@
 declare
   l_rank int;
 begin
-  for i in 1..50000 loop
+  for i in 1..100000 loop
 
     if ( mod(i,3) = 0 ) then
       l_rank := 11;

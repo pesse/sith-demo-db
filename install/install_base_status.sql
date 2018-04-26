@@ -39,22 +39,23 @@ commit;
 
 @../dbobjects/table/group_members.sql
 
+-- packages
+@../dbobjects/packages/group_util.pks
+@../dbobjects/packages/group_util.pkb
+@../dbobjects/packages/soldier_util.pks
+@../dbobjects/packages/soldier_util.pkb
+@../dbobjects/packages/group_management.pks
+@../dbobjects/packages/group_management.pkb
+@../dbobjects/packages/group_factory.pks
+@../dbobjects/packages/group_factory.pkb
+
 
 -- Views
-@../dbobjects/views/v_group_names.sql
 @../dbobjects/views/v_groups.sql
 @../dbobjects/triggers/trg_save_v_groups.sql
 @../dbobjects/views/v_group_soldiers.sql
 @../dbobjects/views/v_soldiers.sql
 @../dbobjects/triggers/trg_save_v_soldiers.sql
-
-
--- packages
-@../dbobjects/packages/group_management.pks
-@../dbobjects/packages/group_management.pkb
-@../dbobjects/procedures/get_soldier_group_name.fnc
-
-
 
 
 @create_soldiers.sql

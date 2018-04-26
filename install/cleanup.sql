@@ -1,9 +1,11 @@
 drop package group_management;
+drop package group_util;
+drop package soldier_util;
+drop package group_factory;
 
 drop view v_soldiers;
 drop view v_group_soldiers;
 drop view v_groups;
-drop view v_group_names;
 
 drop table group_members;
 drop table groups;
