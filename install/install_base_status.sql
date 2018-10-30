@@ -61,6 +61,6 @@ commit;
 @create_soldiers.sql
 @create_groups.sql
 
-call group_management.fill_groups();
+call group_management.fill_groups(1);
 
 commit;

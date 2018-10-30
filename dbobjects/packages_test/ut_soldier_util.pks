@@ -1,7 +1,7 @@
 create or replace package ut_soldier_util as
 
   -- %suite(Soldier-Util)
-  -- %suite(soldier)
+  -- %suitepath(soldier)
 
   -- %test(Get soldier's group-name)
   -- %beforetest(setup_soldier_and_group)

@@ -1,4 +1,4 @@
-create or replace view v_groups as
+create or replace view v_groups_2 as
   with
       group_names as (
         select
@@ -37,6 +37,13 @@ create or replace view v_groups as
     parent_id parent_group_id,
     gt.label,
     gt.min_size,
-    gt.max_size
+    gt.max_size,
+    s.name leader_name,
+    r.label leader_rank_label
   from group_hierarchic gh
-    inner join group_types gt on gh.group_type_id = gt.id;
+    inner join group_types gt on gh.group_type_id = gt.id
+    left outer join group_members gm
+        on gh.id = gm.group_fk
+             and gm.is_leader = 1
+      left outer join soldiers s on gm.soldier_fk = s.id
+      left outer join soldier_ranks r on s.rank_fk = r.id;

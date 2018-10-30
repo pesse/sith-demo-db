@@ -8,7 +8,7 @@ create or replace package body group_management as
       select id into l_result from (
       select
         s.id,
-        ROW_NUMBER() OVER (ORDER BY sr.hierarchy_level desc) rn
+        row_number() over (order by sr.hierarchy_level desc) rn
       from
         soldiers s
         inner join soldier_ranks sr on s.rank_fk = sr.id
@@ -25,9 +25,10 @@ create or replace package body group_management as
       return null;
     end;
 
-  procedure fill_group_leader( i_group in integer, i_min_lead_rank in integer )
+  procedure fill_group_leader( i_group in integer, i_min_lead_rank in integer, i_gracefully bit )
   as
     l_soldier int;
+    l_errmsg varchar2(2000);
     begin
       l_soldier := get_next_groupless_soldier(i_min_lead_rank, i_min_lead_rank+1);
 
@@ -35,13 +36,18 @@ create or replace package body group_management as
         insert into group_members (GROUP_FK, SOLDIER_FK, IS_LEADER)
           values ( i_group, l_soldier, 1);
       else
-        raise_application_error(-20010, 'No groupless soldiers of rank ' || to_char(i_min_lead_rank) ||
-                                        ' to ' || to_char(i_min_lead_rank+1) || ' available');
+        l_errmsg := 'Could not assign a leader to group ' || to_char(i_group) || ': No soldier of rank '
+            || to_char(i_min_lead_rank) || ' to ' || to_char( i_min_lead_rank+1) || ' available';
+        if ( i_gracefully = 1 ) then
+          dbms_output.put_line(l_errmsg);
+        else
+          raise_application_error(-20010, l_errmsg);
+        end if;
       end if;
 
     end;
 
-  procedure fill_group_leaders
+  procedure fill_group_leaders( i_gracefully in bit )
   as
     l_soldier int;
     begin
@@ -54,7 +60,7 @@ create or replace package body group_management as
                       left outer join group_members gm on g.id = gm.group_fk and gm.is_leader = 1
                   where
                     gm.soldier_fk is null) loop
-        fill_group_leader(rec.group_id, rec.min_lead_rank);
+        fill_group_leader(rec.group_id, rec.min_lead_rank, i_gracefully);
       end loop;
 
     end;
@@ -92,21 +98,21 @@ create or replace package body group_management as
       end loop;
     end;
 
-  procedure fill_groups
+  procedure fill_groups( i_gracefully in bit default 0 )
   as
     begin
-      fill_group_leaders();
+      fill_group_leaders( i_gracefully );
       fill_group_members();
     end;
 
-  procedure fill_group( i_group in integer )
+  procedure fill_group( i_group in integer, i_gracefully in bit default 0 )
   as
     l_min_rank int;
     begin
 
       select gt.min_lead_rank into l_min_rank from groups g inner join group_types gt on g.group_type_fk = gt.id where g.id = i_group;
 
-      fill_group_leader(i_group, l_min_rank);
+      fill_group_leader(i_group, l_min_rank, i_gracefully);
       fill_group_members(i_group);
     end;
 
