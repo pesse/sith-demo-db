@@ -1,5 +1,17 @@
 create or replace package body ut_groups as
 
+  procedure update_group_name
+  as
+    l_actual_name v_groups.group_name%type;
+    begin
+      -- Act
+      update v_groups set group_name = 'utPLSQL Power-team' where id = -1;
+
+      -- Assert
+      select group_name into l_actual_name from v_groups where id = -1;
+      ut.expect(l_actual_name).to_equal('utPLSQL Power-team');
+    end;
+
   procedure check_group_names( i_id in integer, i_expected_group_name in varchar2, i_expected_full_name in varchar2 )
   as
     l_actual v_groups%rowtype;
