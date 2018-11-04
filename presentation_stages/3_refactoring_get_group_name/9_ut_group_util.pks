@@ -8,12 +8,8 @@ create or replace package ut_group_util as
 
   -- %test(get_group_name honor name if one is available)
   procedure get_group_name_honor;
-
+  
   -- %test(get_group_name correctly for 11th and 12th (no honor name available))
   procedure get_group_name_11_12;
-
-  -- %test(get_group_name does not allow NULL-arguments)
-  -- %throws(-6502)
-  procedure get_group_name_no_null;
 end;
 /

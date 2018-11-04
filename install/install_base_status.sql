@@ -40,8 +40,8 @@ commit;
 @../dbobjects/table/group_members.sql
 
 -- packages
-@../dbobjects/packages/group_util.pks
-@../dbobjects/packages/group_util.pkb
+--@../dbobjects/packages/group_util.pks
+--@../dbobjects/packages/group_util.pkb
 @../dbobjects/packages/soldier_util.pks
 @../dbobjects/packages/soldier_util.pkb
 @../dbobjects/packages/group_management.pks
