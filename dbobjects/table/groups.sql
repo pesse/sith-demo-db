@@ -7,3 +7,5 @@ create table groups (
   constraint groups_fk_type foreign key ( group_type_fk ) references group_types (id),
   constraint groups_fk_parent foreign key ( parent_fk ) references groups ( id ) on delete set null
 );
+
+alter table groups add constraint groups_nr_in_group_uq unique ( parent_fk, group_type_fk, nr_in_group );

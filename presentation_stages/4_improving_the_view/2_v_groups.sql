@@ -1,4 +1,4 @@
-create or replace view v_groups as
+create or replace view v_groups_2 as
   with
       group_names as (
         select

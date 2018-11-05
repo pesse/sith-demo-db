@@ -1,7 +1,7 @@
 declare
   l_rank int;
 begin
-  for i in 1..50000 loop
+  for i in 1..100000 loop
 
     if ( mod(i,3) = 0 ) then
       l_rank := 11;
@@ -17,7 +17,7 @@ begin
     end loop;
 
     insert into soldiers ( ID, NAME, BIO_SHORT, RANK_FK)
-      values ( soldiers_seq.nextval, 'Solder #'||to_char(i), null, (select id from soldier_ranks where hierarchy_level = l_rank) );
+      values ( soldiers_seq.nextval, 'Soldier #'||to_char(i), null, (select id from soldier_ranks where hierarchy_level = l_rank) );
 
   end loop;
 end;

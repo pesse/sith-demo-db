@@ -39,9 +39,18 @@ commit;
 
 @../dbobjects/table/group_members.sql
 
+-- packages
+--@../dbobjects/packages/group_util.pks
+--@../dbobjects/packages/group_util.pkb
+@../dbobjects/packages/soldier_util.pks
+@../dbobjects/packages/soldier_util.pkb
+@../dbobjects/packages/group_management.pks
+@../dbobjects/packages/group_management.pkb
+@../dbobjects/packages/group_factory.pks
+@../dbobjects/packages/group_factory.pkb
+
 
 -- Views
-@../dbobjects/views/v_group_names.sql
 @../dbobjects/views/v_groups.sql
 @../dbobjects/triggers/trg_save_v_groups.sql
 @../dbobjects/views/v_group_soldiers.sql
@@ -49,15 +58,9 @@ commit;
 @../dbobjects/triggers/trg_save_v_soldiers.sql
 
 
--- packages
-@../dbobjects/packages/group_management.pks
-@../dbobjects/packages/group_management.pkb
-
-
-
 @create_soldiers.sql
 @create_groups.sql
 
-call group_management.fill_groups();
+call group_management.fill_groups(1);
 
 commit;
