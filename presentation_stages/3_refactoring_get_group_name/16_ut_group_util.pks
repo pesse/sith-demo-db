@@ -13,6 +13,7 @@ create or replace package ut_group_util as
   procedure get_group_name_11_12;
 
   -- %test(get_group_name does not allow NULL-arguments)
+  -- %throws(-06502)
   procedure get_group_name_no_null;
 end;
 /
