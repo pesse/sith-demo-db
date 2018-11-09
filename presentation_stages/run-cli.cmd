@@ -1,0 +1,1 @@
+utplsql run sithdb/sithdb@localhost:1522/ORCLPDB1 -c

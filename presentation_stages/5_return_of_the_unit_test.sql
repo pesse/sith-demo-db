@@ -1,3 +1,20 @@
+create or replace package ut_groups as
+
+  -- %suite(Groups View V_GROUPS)
+
+  -- %test(Update group-name via view)
+  procedure update_group_name;
+
+  -- %test(Groups will show up with the correct group_name and full_group_name, taking honor names into account)
+  procedure select_fire_unit;
+
+  -- %beforeall
+  procedure setup;
+end;
+/
+
+
+
 create or replace package body ut_groups as
 
   procedure update_group_name
@@ -26,7 +43,7 @@ create or replace package body ut_groups as
   as
     begin
       check_group_names(-3, '1st Fire team', '1st Fire team of 1st Squad of 1st Platoon');
-      check_group_names(-4, 'utPLSQL team', '2nd Fire team of 1st Squad of 1st Platoon');
+      check_group_names(-4, 'Revan''s Ghosts', '2nd Fire team of 1st Squad of 1st Platoon');
       check_group_names(-5, '3rd Fire team', '3rd Fire team of 1st Squad of 1st Platoon');
     end;
 
@@ -58,7 +75,7 @@ create or replace package body ut_groups as
         i_id => -4,
         i_group_type => 1,
         i_parent_id => -2,
-        i_honor_name => 'utPLSQL team'
+        i_honor_name => 'Revan''s Ghosts'
       );
       setup_group(
         i_id => -5,
@@ -68,3 +85,7 @@ create or replace package body ut_groups as
     end;
 end;
 /
+
+
+
+call ut.run();
