@@ -120,6 +120,7 @@ create or replace view v_groups_2 as
      _/_\_            [ -'-.__
 snd <]   \>            \_____.>
       \__/
+ (by Shanaka Dias)
  */
 
 
@@ -197,6 +198,9 @@ create or replace view v_groups as
              and gm.is_leader = 1
       left outer join soldiers s on gm.soldier_fk = s.id
       left outer join soldier_ranks r on s.rank_fk = r.id;
+
+
+
 
 
 
