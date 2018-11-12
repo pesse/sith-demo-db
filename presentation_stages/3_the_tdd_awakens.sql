@@ -147,6 +147,11 @@ end;
 /
 
 
+
+
+
+
+
 -- Compilation Error!
 
 create or replace package group_util as
@@ -260,7 +265,7 @@ call ut.run('ut_group_util');
           :-""-.`./-.'     /    `.___.'
                 \ `t  ._  /  bug :F_P:
                  "-.t-._:'
-
+(by Blazej Kozlowski & Faux_Pseudo)
 
  */
 
@@ -327,7 +332,7 @@ call ut.run('ut_group_util');
 
 
 
-
+-- Implementation
 
 
 create or replace package body group_util as
@@ -372,6 +377,13 @@ call ut.run('ut_group_util');
 
 
 
+
+
+
+
+
+
+
 /*
 
 
@@ -404,7 +416,7 @@ call ut.run('ut_group_util');
           :-""-.`./-.'     /    `.___.'
                 \ `t  ._  /  bug :F_P:
                  "-.t-._:'
-
+(by Blazej Kozlowski & Faux_Pseudo)
 
  */
 
@@ -483,6 +495,10 @@ call ut.run('ut_group_util');
 
 
 
+
+
+
+
 create or replace package group_util as
 
   subtype nn_varchar2 is varchar2 not null;
@@ -535,6 +551,11 @@ call ut.run('ut_group_util');
 -- Fail! Yes!
 
 
+
+
+/****************
+* Refactoring des Tests
+ ****************/
 
 create or replace package ut_group_util as
   -- %suite(Group-Util)
