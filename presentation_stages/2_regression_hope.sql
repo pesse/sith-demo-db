@@ -36,7 +36,8 @@ create or replace package body ut_groups as
 
       -- Assert
       select group_name into l_actual_name from v_groups where id = -1;
-      ut.expect(l_actual_name).to_equal('utPLSQL Power-team');
+      ut.expect(l_actual_name)
+        .to_equal('utPLSQL Power-team');
     end;
 end;
 /
@@ -89,7 +90,7 @@ for each row
 
 
 
-call ut.run('ut_groups');
+call ut.  run('ut_groups');
 
 
 

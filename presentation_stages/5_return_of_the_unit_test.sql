@@ -31,7 +31,8 @@ create or replace package body ut_groups as
 
   procedure check_group_names(
     i_id in integer,
-    i_expected_group_name in varchar2, i_expected_full_name in varchar2 )
+    i_expected_group_name in varchar2,
+    i_expected_full_name in varchar2 )
   as
     l_actual v_groups%rowtype;
     begin
