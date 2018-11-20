@@ -51,7 +51,8 @@ commit;
 
 
 -- Views
-@../dbobjects/views/v_groups.sql
+@../dbobjects/views/v_group_names.old.sql
+@../dbobjects/views/v_groups.old.sql
 @../dbobjects/triggers/trg_save_v_groups.sql
 @../dbobjects/views/v_group_soldiers.sql
 @../dbobjects/views/v_soldiers.sql

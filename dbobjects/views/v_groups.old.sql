@@ -15,9 +15,7 @@ select
   g1.parent_fk parent_group_id,
   gt.label,
   gt.min_size,
-  gt.max_size,
-  s.name leader_name,
-  r.label leader_rank_label
+  gt.max_size
 from
   v_group_names g1
   left outer join v_group_names g2 on g1.parent_fk = g2.id
