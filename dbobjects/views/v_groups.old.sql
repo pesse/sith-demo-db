@@ -1,8 +1,3 @@
--- Reset Group-Name
-update groups set honor_name = null where honor_name is not null;
-commit;
-
--- Reset V_GROUPS
 create or replace view v_groups as
 select
   g1.id,
@@ -37,17 +32,3 @@ from
   left outer join soldiers s on gm.soldier_fk = s.id
   left outer join soldier_ranks r on s.rank_fk = r.id
   ;
-
-create or replace trigger trg_save_v_groups instead of update or insert or delete on v_groups
-for each row
-  declare
-  begin
-    if (:new.group_name is not null and (:old.group_name is null or :new.group_name <> :old.group_name)) then
-      update groups set honor_name = :new.group_name where id = :new.id;
-    end if;
-  end;
-/
-
-drop package ut_groups;
-drop package ut_group_util;
-drop package group_util;
