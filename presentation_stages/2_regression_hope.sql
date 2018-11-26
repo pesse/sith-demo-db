@@ -90,7 +90,7 @@ for each row
 
 
 
-call ut.  run('ut_groups');
+call ut.run('ut_groups');
 
 
 
