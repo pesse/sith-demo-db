@@ -1,7 +1,7 @@
 # sith-demo-db
 A demo database of the Sith to showcase database techniques
 
-#DOAG 2018
+# DOAG 2018
 This branch contains the live-demo presented at DOAG 2018.
 See `/presentation_stages` for the exact examples.
 
