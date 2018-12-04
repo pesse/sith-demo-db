@@ -38,6 +38,7 @@ commit;
 
 
 @../dbobjects/table/group_members.sql
+@../dbobjects/table/deathstar_power_nodes.sql
 
 -- packages
 --@../dbobjects/packages/group_util.pks
