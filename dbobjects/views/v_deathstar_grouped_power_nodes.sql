@@ -1,11 +1,11 @@
 create or replace view v_deathstar_grouped_power_nodes as
   with node_groups as (
-    select prime.id group_id,
-           replica.id member_id
-      from deathstar_power_nodes prime
-      inner join deathstar_power_nodes replica
-             on prime.id = nvl(replica.primary_node_fk, replica.id)
-      where prime.primary_node_fk is null
+    select group_entry.id group_id,
+           members.id member_id
+      from deathstar_power_nodes group_entry
+      inner join deathstar_power_nodes members
+             on group_entry.id = nvl(members.primary_node_fk, members.id)
+      where group_entry.primary_node_fk is null
   )
   select nodes.id power_node_id,
          groups.group_id,
