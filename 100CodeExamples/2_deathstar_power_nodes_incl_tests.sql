@@ -1,3 +1,17 @@
+/*****************************************************************************************
+* Full example of Unit-Testing Primary/Secondary Lookup for #100CodeExamples challenge
+*
+* Autor: pesse
+*
+* https://cleandatabase.wordpress.com/2018/12/06/100codeexamples-unit-tests-for-primary-secondary-lookup-with-cursor-comparison/
+*
+* Script will drop all objects it creates
+*
+*****************************************************************************************/
+
+/******************
+* Setup
+ ******************/
 create table deathstar_power_nodes (
   id integer not null,
   label varchar2(100),
