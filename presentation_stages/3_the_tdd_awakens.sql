@@ -492,6 +492,7 @@ call ut.run('ut_group_util');
 
 -- Success ist das falsche Ergebnis!
 
+-- Vorhersage als Übung
 
 
 
@@ -554,7 +555,7 @@ call ut.run('ut_group_util');
 
 
 /****************
-* Refactoring des Tests
+* Anpassen des Tests
  ****************/
 
 create or replace package ut_group_util as
