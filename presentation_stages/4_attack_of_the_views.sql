@@ -204,6 +204,10 @@ create or replace view v_groups as
 
 
 
+-- Aber utPLSQL?
+
+
+
 
 
 
