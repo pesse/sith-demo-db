@@ -24,7 +24,7 @@ create table deathstar_protocol_active (
 create or replace package deathstar_security as
 
   /* This is just for making the setting a
-     little bit more realistic. For this example
+     little bit more realistic. Implementation-wise
      we dont make a distinction whether a person
      is hooded (which is a sure sign for an
      undercover jedi) or not
@@ -104,7 +104,7 @@ end;
 
 create or replace package ut_deathstar_security as
 	-- %suite(Deathstar Security)
-  -- %suitepath(deathstar.defense)
+	-- %suitepath(deathstar.defense)
 
 	/* This first beforeall is only issued
 	   once for the whole suite - which can be
@@ -114,48 +114,48 @@ create or replace package ut_deathstar_security as
 	procedure setup_test_protocols;
 
 	/* Every context can have an identifier */
-  -- %context(low)
-	  /* With the displayname-annotation we can also
-	     give a label */
-    -- %displayname(Protocol: Low)
+	-- %context(low)
+		/* With the displayname-annotation we can also
+	       give a label */
+		-- %displayname(Protocol: Low)
 
-	  /* This is only issued once in this context */
-	  -- %beforeall
-	  procedure setup_protocol_low;
+		/* This is only issued once in this context */
+		-- %beforeall
+		procedure setup_protocol_low;
 
-    -- %test(Hooded Person gets a kind welcome message)
-    procedure low_welcome_message;
+		-- %test(Hooded Person gets a kind welcome message)
+		procedure low_welcome_message;
 
-	  -- %test(Entry to public area is allowed)
-    procedure low_entry_allowed;
+		-- %test(Entry to public area is allowed)
+		procedure low_entry_allowed;
 	/* Every context needs to be closed */
 	-- %endcontext
 
-  -- %context(medium)
-    -- %displayname(Protocol: Medium)
+	-- %context(medium)
+		-- %displayname(Protocol: Medium)
 
-	  -- %beforeall
-	  procedure setup_protocol_medium;
+		-- %beforeall
+		procedure setup_protocol_medium;
 
-    -- %test(Hooded Person gets a suspicious welcome message)
-    procedure medium_welcome_message;
+		-- %test(Hooded Person gets a suspicious welcome message)
+		procedure medium_welcome_message;
 
-	  -- %test(Entry to public area is denied)
-    procedure medium_entry_allowed;
+		-- %test(Entry to public area is denied)
+		procedure medium_entry_allowed;
 	-- %endcontext
 
-  -- %context(high)
-    -- %displayname(Protocol: High)
+	-- %context(high)
+		-- %displayname(Protocol: High)
 
-	  -- %beforeall
-	  procedure setup_protocol_high;
+		-- %beforeall
+		procedure setup_protocol_high;
 
-    -- %test(Hooded Person is yelled at)
-    procedure high_welcome_message;
+		-- %test(Hooded Person is yelled at)
+		procedure high_welcome_message;
 
-	  -- %test(Try to access public area throws exception)
-	  -- %throws(-20100)
-    procedure high_entry_allowed;
+		-- %test(Try to access public area throws exception)
+		-- %throws(-20100)
+		procedure high_entry_allowed;
 	-- %endcontext
 end;
 /
@@ -179,11 +179,11 @@ create or replace package body ut_deathstar_security as
      more expressive
    */
   procedure expect_welcome_message(
-    i_expected_msg varchar2 )
+    i_expected_msg varchar2)
   as
   begin
     ut.expect(
-        deathstar_security.welcome(
+      deathstar_security.welcome(
           get_hooded_person()
         )
       ).to_equal(i_expected_msg);
@@ -193,14 +193,14 @@ create or replace package body ut_deathstar_security as
      more expressive
    */
   procedure expect_access(
-    i_expected_access boolean )
+    i_expected_access boolean)
   as
   begin
     ut.expect(
-	      deathstar_security.access_allowed(
-	        get_hooded_person()
-	      )
-		  ).to_equal(i_expected_access);
+      deathstar_security.access_allowed(
+          get_hooded_person()
+        )
+      ).to_equal(i_expected_access);
   end;
 
   procedure setup_test_protocols
@@ -211,12 +211,12 @@ create or replace package body ut_deathstar_security as
        cannot be sure they stay the same over time.
        This is highly dependent on the use case, of course
      */
-		insert into deathstar_protocols
-		  values (-1, 'Test Low', 'LOW', 'BE_KIND', 80);
-		insert into deathstar_protocols
-		  values (-2, 'Test Medium', 'MEDIUM', 'BE_SUSPICIOUS', 90);
-		insert into deathstar_protocols
-		  values (-3, 'Test High', 'VERY HIGH', 'SHOOT_FIRST_ASK_LATER', 120);
+    insert into deathstar_protocols
+      values (-1, 'Test Low', 'LOW', 'BE_KIND', 80);
+    insert into deathstar_protocols
+      values (-2, 'Test Medium', 'MEDIUM', 'BE_SUSPICIOUS', 90);
+    insert into deathstar_protocols
+      values (-3, 'Test High', 'VERY HIGH', 'SHOOT_FIRST_ASK_LATER', 120);
   end;
 
   procedure setup_protocol_low
@@ -279,3 +279,4 @@ end;
 /
 
 call ut.run('ut_deathstar_security');
+call ut.run(':deathstar.defense.ut_deathstar_security.high');
