@@ -1,6 +1,4 @@
-/* We have several protocols for the deathstar
-  but its important we only have one active protocol
-  at a time
+/* Setup known from Deathstar-Protocol example
  */
 create table deathstar_protocols (
   id integer not null primary key,
@@ -60,14 +58,16 @@ create or replace package body deathstar_security as
   begin
     select p.* into l_result
       from deathstar_protocols p
-        inner join deathstar_protocol_active pa on p.id = pa.id;
+        inner join deathstar_protocol_active pa
+          on p.id = pa.id;
     return l_result;
   end;
 
   function welcome(i_person t_person)
     return varchar2
   as
-    l_protocol deathstar_protocols%rowtype := active_protocol();
+    l_protocol deathstar_protocols%rowtype
+      := active_protocol();
   begin
     case l_protocol.defense_mode
       when 'BE_KIND' then
@@ -84,7 +84,8 @@ create or replace package body deathstar_security as
   function access_allowed( i_person t_person )
     return boolean
   as
-    l_protocol deathstar_protocols%rowtype := active_protocol();
+    l_protocol deathstar_protocols%rowtype
+      := active_protocol();
   begin
     case l_protocol.alert_level
       when 'LOW' then
@@ -162,7 +163,7 @@ end;
 create or replace package body ut_deathstar_security as
 
   /* Helper-function to get a hooded test-person
-     Not realls needed but everything gets
+     Not really needed but everything gets
      better with hoods!
    */
   function get_hooded_person
@@ -182,7 +183,9 @@ create or replace package body ut_deathstar_security as
   as
   begin
     ut.expect(
-        deathstar_security.welcome(get_hooded_person())
+        deathstar_security.welcome(
+          get_hooded_person()
+        )
       ).to_equal(i_expected_msg);
   end;
 
@@ -194,8 +197,10 @@ create or replace package body ut_deathstar_security as
   as
   begin
     ut.expect(
-      deathstar_security.access_allowed(get_hooded_person())
-	    ).to_equal(i_expected_access);
+	      deathstar_security.access_allowed(
+	        get_hooded_person()
+	      )
+		  ).to_equal(i_expected_access);
   end;
 
   procedure setup_test_protocols
