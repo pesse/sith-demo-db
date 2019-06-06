@@ -217,6 +217,11 @@ create or replace package body ut_deathstar_security as
       values (-2, 'Test Medium', 'MEDIUM', 'BE_SUSPICIOUS', 90);
     insert into deathstar_protocols
       values (-3, 'Test High', 'VERY HIGH', 'SHOOT_FIRST_ASK_LATER', 120);
+
+    /* In case no active protocol entry exists */
+    insert into deathstar_protocol_active ( id )
+      select -1 from dual
+        where not exists (select 1 from deathstar_protocol_active);
   end;
 
   procedure setup_protocol_low
