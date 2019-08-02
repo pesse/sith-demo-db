@@ -144,7 +144,7 @@ select * from force_powers;
 alter table force_powers
   add struct t_numeric_structure;
 
--- Then update
+-- Then fill the new column
 update force_powers
   set struct = t_numeric_structure(structure);
 
@@ -163,7 +163,9 @@ select
   struct.structure() structure
   from force_powers p;
 
--- It also doesnt work to add a unique constraint on the type
+-- Now let's make the new column unique
+
+-- It doesnt work to add a unique constraint on the type
 alter table force_powers
   add constraint force_powers_uq_struct_new unique ( struct );
 
@@ -206,10 +208,21 @@ update force_powers p
   where p.struct.structure() = '3.1.2';
 
 select
-  p.id,
-  p.struct.structure() structure,
-  p.name
-  from force_powers p;
+  base.id,
+  base.struct.structure() structure,
+  base.name,
+  base.struct.level1() level1,
+  base.struct.level2() level3,
+  base.struct.level3() level3,
+  base.struct.depth() depth,
+  base.struct.sort() sort,
+  (select id
+     from force_powers parent
+     where parent.struct.structure() =
+           base.struct.parent().structure()
+  ) parent_id
+  from
+    force_powers base;
 
 -- So ... back to that function-based index problem
 create unique index idx_force_powers_uq_struct on
