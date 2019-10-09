@@ -490,6 +490,17 @@ end;
 
 call ut.run('ut_group_util');
 
+
+
+
+
+
+
+
+
+
+
+
 -- Success ist das falsche Ergebnis!
 
 -- Vorhersage als Übung
@@ -548,6 +559,13 @@ end;
 
 
 call ut.run('ut_group_util');
+
+
+
+
+
+
+
 
 -- Fail! Yes!
 
