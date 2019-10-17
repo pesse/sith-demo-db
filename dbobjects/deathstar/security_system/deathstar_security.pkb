@@ -17,29 +17,49 @@ create or replace package body deathstar_security as
     return varchar2
   as
     begin
-      if ( i_person_data.weapon_type = 'lightsaber'
-        and i_person_data.weapon_color in ('red','orange')) then
-        return const_friend;
+      if ( i_person_data.weapon_type = 'lightsaber') then
+        if ( i_person_data.weapon_color in ('red','orange')) then
+          return const_friend;
+        else
+          return const_foe;
+        end if;
       end if;
 
-      if ( i_person_data.cloth_type = 'hooded_robe'
-        and i_person_data.cloth_color = 'black') then
-        return const_friend;
+      if ( i_person_data.cloth_type = 'hooded_robe' ) then
+        if ( i_person_data.cloth_color = 'black') then
+          return const_friend;
+        elsif ( i_person_data.cloth_color = 'red') then
+          return const_unknown;
+        else
+          return const_foe;
+        end if;
       end if;
 
-      if ( i_person_data.cloth_type = 'armor'
-        and i_person_data.cloth_color = 'white') then
-        return const_friend;
+      if ( i_person_data.cloth_type = 'armor' ) then
+        if ( i_person_data.cloth_color = 'white') then
+          return const_friend;
+        elsif ( i_person_data.cloth_color in ('blue/black', 'orange')) then
+          return const_foe;
+        else
+          return const_unknown;
+        end if;
       end if;
 
-      return const_foe;
+      return const_unknown;
     end;
 
   function welcome( i_person_data t_person_appearance )
     return varchar2
   as
+    l_friend_or_foe varchar2(10) := friend_or_foe(i_person_data);
     l_protocol deathstar_protocols%rowtype := active_protocol();
   begin
+    if ( l_friend_or_foe = const_friend ) then
+      return 'Be welcome!';
+    elsif ( l_friend_or_foe = const_foe ) then
+      return 'Die rebel scum!';
+    end if;
+
     case l_protocol.defense_mode
       when 'BE_KIND' then
         return 'Be welcome!';
