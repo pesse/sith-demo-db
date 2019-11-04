@@ -272,14 +272,13 @@ create or replace package body ut_deathstar_add_rooms as
         values ( -2, 'Test Section 2');
 
       -- We expect the new add_room procedure to have an additional parameter
-      deathstar_room_manager.add_room('Testroom 1', -1, 'TEST1', 1);
-      deathstar_room_manager.add_room('Testroom 2', -1, 'TEST2', 2);
-      deathstar_room_manager.add_room('Testroom 3', -2, 'TEST3', 3);
-      -- Default value of security_level parameter
-      deathstar_room_manager.add_room('Testroom 4 - NULL code', -1);
-      -- NULL-value of code parameter
-      deathstar_room_manager.add_room('Testroom 5 - how will the code be', -1, null, 4);
-      deathstar_room_manager.add_room('Testroom 6 - Section 2', -2, null, 4);
+      deathstar_room_manager.ADD_ROOM('Testroom 1', -1, 'TEST1', 1);
+      deathstar_room_manager.ADD_ROOM('Testroom 2', -1, 'TEST2', 2);
+      deathstar_room_manager.ADD_ROOM('Testroom 3', -2, 'TEST3', 3);
+      -- Test scenario with default value
+      deathstar_room_manager.ADD_ROOM('Testroom 4 - NULL code', -1);
+      deathstar_room_manager.ADD_ROOM('Testroom 5 - how will the code be', -1, null, 4);
+      deathstar_room_manager.ADD_ROOM('Testroom 6 - Section 2', -2, null, 4);
 
       -- Insert our new expectation
       open c_expect for
@@ -309,12 +308,10 @@ call ut.run('ut_deathstar_add_rooms');
 
 -- Implement the functionality
 create or replace package deathstar_room_manager as
-  subtype varchar2_nn is varchar2 not null;
-
   /** Adds a new room to a section
    */
   procedure add_room(
-    i_name varchar2_nn,
+    i_name varchar2,
     i_section_id simple_integer,
     i_code varchar2 default null,
     i_security_level positive default null);
@@ -323,7 +320,7 @@ end;
 
 create or replace package body deathstar_room_manager as
   procedure add_room(
-    i_name varchar2_nn,
+    i_name varchar2,
     i_section_id simple_integer,
     i_code varchar2 default null,
     i_security_level positive default null )
@@ -356,7 +353,7 @@ end;
 /
 
 
--- Test: Compilation error
+-- Test
 call ut.run('ut_deathstar_add_rooms');
 
 
@@ -365,7 +362,7 @@ alter table deathstar_rooms
   add security_level integer default 1 not null;
 
 
--- Test: Expectation not met
+-- Test
 call ut.run('ut_deathstar_add_rooms');
 
 
