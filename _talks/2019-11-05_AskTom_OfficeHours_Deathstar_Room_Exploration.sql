@@ -84,6 +84,10 @@ select * from deathstar_rooms;
 
 -- Let's first investigate what we have
 
+select * from deathstar_rooms;
+select * from deathstar_sections;
+
+
 create or replace package deathstar_room_manager as
   subtype varchar2_nn is varchar2 not null;
 
@@ -95,11 +99,6 @@ create or replace package deathstar_room_manager as
     i_code varchar2 default null );
 end;
 /
-
-select * from deathstar_sections;
-select * from deathstar_rooms;
-
-
 
 
 -- Start adding a new test package for exploration
