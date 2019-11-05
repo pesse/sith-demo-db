@@ -215,11 +215,18 @@ select * from deathstar_sections;
 
 rollback;
 
--- SQLcl
+
+-- Now create a SELECT FROM DUAL-style query with the actually expected data
+-- For example with a Formatter-PlugIn for SQLcl
+select 19 id , 'Testroom 1' name                   , 'TEST1' code , -1 section_id , 1 nr_in_section  from dual union all
+select 20    , 'Testroom 2'                        , 'TEST2'      , -1            , 2                from dual union all
+select 21    , 'Testroom 3'                        , 'TEST3'      , -2            , 1                from dual union all
+select 22    , 'Testroom 4 - NULL code'            , 'TESTRO1'    , -1            , 3                from dual union all
+select 23    , 'Testroom 5 - how will the code be' , 'TESTRO2'    , -1            , 4                from dual union all
+select 24    , 'Testroom 6 - Section 2'            , 'TESTRO3'    , -2            , 2                from dual;
 
 
-
--- Now make it an approval test
+-- Finally: make the test an approval test
 create or replace package body ut_deathstar_add_rooms as
 
   procedure add_rooms
@@ -240,10 +247,24 @@ create or replace package body ut_deathstar_add_rooms as
       deathstar_room_manager.add_room('Testroom 6 - Section 2', -2);
 
       -- Actual
+      open c_actual for
+      	select * from deathstar_rooms where section_id < 0 order by id desc;
 
       -- Expectation
+      open c_expect for
+      	select 19 id , 'Testroom 1' name                   , 'TEST1' code , -1 section_id , 1 nr_in_section  from dual union all
+        select 20    , 'Testroom 2'                        , 'TEST2'      , -1            , 2                from dual union all
+        select 21    , 'Testroom 3'                        , 'TEST3'      , -2            , 1                from dual union all
+        select 22    , 'Testroom 4 - NULL code'            , 'TESTRO1'    , -1            , 3                from dual union all
+        select 23    , 'Testroom 5 - how will the code be' , 'TESTRO2'    , -1            , 4                from dual union all
+        select 24    , 'Testroom 6 - Section 2'            , 'TESTRO3'    , -2            , 2                from dual
+      ;
 
       -- Compare them
+      ut.expect(c_actual)
+        .to_equal(c_expect)
+        .join_by('CODE')
+        .exclude('ID');
     end;
 end;
 /
@@ -251,12 +272,7 @@ end;
 call ut.run('ut_deathstar_add_rooms');
 
 
--- 1. Join_by
--- 2. exclude columns we don't need
-
-
-
-
+-- You can now build new functionality upon that and be confident that you don't mess up things
 
 -- Also follow @Der_Pesse on Twitter :)
 
