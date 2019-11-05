@@ -81,10 +81,9 @@ select * from deathstar_rooms;
 
 
 
--- Task: Adding a new column to the DEATHSTAR_ROOMS-Table
--- Task: Add this new column to the procedure ADD_ROOMS of DEATHSTAR_ROOM_MANAGER
+-- Task: Understand the functionality of DEATHSTAR_ROOMS-Table and ADD_ROOMS procedure
 
--- --> We first need to understand what this procedure does
+-- --> The goal is to be able to expand this table in the future
 
 
 
