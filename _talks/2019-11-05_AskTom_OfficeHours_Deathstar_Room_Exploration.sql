@@ -3,11 +3,6 @@
 Setup
 -------------------------------------------------------------------------------
 */
-
-drop table room_inventory;
-drop table deathstar_rooms;
-drop table deathstar_sections;
-
 create table deathstar_sections (
   id integer not null primary key,
   label varchar2(200)
@@ -257,3 +252,12 @@ call ut.run('ut_deathstar_add_rooms');
 
 
 
+/*
+--------------------------------------------------------------------------------
+Cleanup
+-------------------------------------------------------------------------------
+*/
+drop package ut_deathstar_add_rooms;
+drop package deathstar_room_manager;
+drop table deathstar_rooms;
+drop table deathstar_sections;
