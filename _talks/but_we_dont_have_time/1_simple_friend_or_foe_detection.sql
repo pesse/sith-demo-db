@@ -25,7 +25,8 @@
 
 -- Start
 create or replace package deathstar_security as
-  -- Implement
+  function friend_or_foe( i_person_data t_person_appearance )
+    return varchar2;
 end;
 /
 
@@ -34,6 +35,7 @@ create or replace package body deathstar_security as
     return varchar2
   as
     begin
+      null;
       -- Lightsaber
 
       -- Hooded Robe
@@ -53,8 +55,30 @@ end;
 
 
 
--- Complete
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Complete (Backup)
 create or replace package deathstar_security as
   /* Decides whether a person is friend or foe,
      based on their appearance
