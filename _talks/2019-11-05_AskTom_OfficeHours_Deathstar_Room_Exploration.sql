@@ -157,7 +157,7 @@ select * from deathstar_rooms;
 
 
 
--- Let's try it again with foce-manual-rollback
+-- Let's try it again with force-manual-rollback
 begin
   ut.run('ut_deathstar_add_rooms', a_force_manual_rollback=>true);
 end;
