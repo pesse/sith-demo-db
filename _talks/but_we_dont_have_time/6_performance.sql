@@ -9,7 +9,7 @@ create or replace package ut_deathstar as
 end;
 /
 
-call ut.run(':ut_deathstar');
+select * from table(ut.run(':ut_deathstar'));
 
 
 -- Use it for some heavy-lifting setup
