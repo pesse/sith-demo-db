@@ -156,7 +156,7 @@ create or replace package body ut_deathstar_room_view_generator as
         select -2   , 'Test Room 2'   , 'TESTROOM2'    , -1           , 'Test Section'               from dual;
 
       open l_actual for
-        'select * from room_test_view';
+        select * from room_test_view;
 
       ut.expect(l_actual)
         .to_equal(l_expected)
