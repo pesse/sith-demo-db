@@ -169,53 +169,10 @@ call ut.run('ut_deathstar_add_rooms');
 
 
 
--- Improve test for new functionality
--- We want a new column "security_level"
-create or replace package body ut_deathstar_add_rooms as
 
-  procedure add_rooms
-  as
-    c_actual sys_refcursor;
-    c_expect sys_refcursor;
-    begin
-      insert into deathstar_sections ( id, label )
-        values ( -1, 'Test Section');
-      insert into deathstar_sections ( id, label )
-        values ( -2, 'Test Section 2');
-
-      -- We expect the new add_room procedure to have an additional parameter
-      deathstar_room_manager.add_room('Testroom 1', -1, 'TEST1', 1);
-      deathstar_room_manager.add_room('Testroom 2', -1, 'TEST2', 2);
-      deathstar_room_manager.add_room('Testroom 3', -2, 'TEST3', 3);
-      -- Default value of security_level parameter
-      deathstar_room_manager.add_room('Testroom 4 - NULL code', -1);
-      -- NULL-value of code parameter
-      deathstar_room_manager.add_room('Testroom 5 - how will the code be', -1, null, 4);
-      deathstar_room_manager.add_room('Testroom 6 - Section 2', -2, null, 4);
-
-      -- Insert our new expectation
-      open c_expect for
-      	select 43 id , 'Testroom 1' name                   , 'TEST1' code , -1 section_id , 1 nr_in_section, 1 security_level  from dual union all
-        select 44    , 'Testroom 2'                        , 'TEST2'      , -1            , 2              , 2                 from dual union all
-        select 45    , 'Testroom 3'                        , 'TEST3'      , -2            , 1              , 3                 from dual union all
-        select 46    , 'Testroom 4 - NULL code'            , 'TESTRO1'    , -1            , 3              , 1                 from dual union all
-        select 47    , 'Testroom 5 - how will the code be' , 'TESTRO2'    , -1            , 4              , 4                 from dual union all
-        select 48    , 'Testroom 6 - Section 2'            , 'TESTRO3'    , -2            , 2              , 4                 from dual;
-
-      open c_actual for
-        select * from deathstar_rooms where section_id < 0 order by id desc;
-
-      ut.expect(c_actual)
-        .to_equal(c_expect)
-        .exclude(ut_varchar2_list('ID'))
-        .join_by('CODE')
-      ;
-    end;
-end;
-/
-
-call ut.run('ut_deathstar_add_rooms');
-
+-- Add the new column
+alter table deathstar_rooms
+  add security_level integer default 1 not null;
 
 
 -- Implement the functionality
@@ -267,14 +224,53 @@ end;
 /
 
 
--- Test: Compilation error
+
 call ut.run('ut_deathstar_add_rooms');
 
 
--- Add the new column
-alter table deathstar_rooms
-  add security_level integer default 1 not null;
+-- Improve test for new functionality
+-- We want a new column "security_level"
+create or replace package body ut_deathstar_add_rooms as
 
+  procedure add_rooms
+  as
+    c_actual sys_refcursor;
+    c_expect sys_refcursor;
+    begin
+      insert into deathstar_sections ( id, label )
+        values ( -1, 'Test Section');
+      insert into deathstar_sections ( id, label )
+        values ( -2, 'Test Section 2');
 
+      -- We expect the new add_room procedure to have an additional parameter
+      deathstar_room_manager.add_room('Testroom 1', -1, 'TEST1', 1);
+      deathstar_room_manager.add_room('Testroom 2', -1, 'TEST2', 2);
+      deathstar_room_manager.add_room('Testroom 3', -2, 'TEST3', 3);
+      -- Default value of security_level parameter
+      deathstar_room_manager.add_room('Testroom 4 - NULL code', -1);
+      -- NULL-value of code parameter
+      deathstar_room_manager.add_room('Testroom 5 - how will the code be', -1, null, 4);
+      deathstar_room_manager.add_room('Testroom 6 - Section 2', -2, null, 4);
+
+      -- Insert our new expectation
+      open c_expect for
+      	select 43 id , 'Testroom 1' name                   , 'TEST1' code , -1 section_id , 1 nr_in_section, 1 security_level  from dual union all
+        select 44    , 'Testroom 2'                        , 'TEST2'      , -1            , 2              , 2                 from dual union all
+        select 45    , 'Testroom 3'                        , 'TEST3'      , -2            , 1              , 3                 from dual union all
+        select 46    , 'Testroom 4 - NULL code'            , 'TESTRO1'    , -1            , 3              , 1                 from dual union all
+        select 47    , 'Testroom 5 - how will the code be' , 'TESTRO2'    , -1            , 4              , 4                 from dual union all
+        select 48    , 'Testroom 6 - Section 2'            , 'TESTRO3'    , -2            , 2              , 4                 from dual;
+
+      open c_actual for
+        select * from deathstar_rooms where section_id < 0 order by id desc;
+
+      ut.expect(c_actual)
+        .to_equal(c_expect)
+        .exclude(ut_varchar2_list('ID'))
+        .join_by('CODE')
+      ;
+    end;
+end;
+/
 
 call ut.run('ut_deathstar_add_rooms');
