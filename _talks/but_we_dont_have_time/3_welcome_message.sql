@@ -125,8 +125,8 @@ create or replace package ut_deathstar_security_welcome as
   -- %test(We expect to receive the controlled protocol)
   procedure we_get_the_expected_protocol;
 
-  -- %context(be_kind)
-		-- %displayname(When protocol in Defense-Mode: BE_KIND)
+  -- %context(When protocol in Defense-Mode: BE_KIND)
+		-- %name(be_kind)
 
 		-- %beforeall
 		procedure setup_protocol_be_kind;
@@ -262,8 +262,8 @@ create or replace package ut_deathstar_security_welcome as
   -- %test(We expect to receive the controlled protocol)
   procedure we_get_the_expected_protocol;
 
-  -- %context(be_kind)
-		-- %displayname(When protocol in Defense-Mode: BE_KIND)
+  -- %context(When protocol in Defense-Mode: BE_KIND)
+		-- %name(be_kind)
 
 		-- %beforeall
 		procedure setup_protocol_be_kind;
@@ -278,8 +278,8 @@ create or replace package ut_deathstar_security_welcome as
 		procedure be_kind_unknown_is_welcomed;
 	-- %endcontext
 
-  -- %context(be_suspicious)
-		-- %displayname(When protocol in Defense-Mode: BE_SUSPICIOUS)
+  -- %context(When protocol in Defense-Mode: BE_SUSPICIOUS)
+		-- %name(be_suspicious)
 
 		-- %beforeall
 		procedure setup_protocol_be_suspicious;
@@ -294,8 +294,8 @@ create or replace package ut_deathstar_security_welcome as
 		procedure be_suspicious_unknown_is_asked;
 	-- %endcontext
 
-  -- %context(be_aggressive)
-		-- %displayname(When protocol in Defense-Mode: SHOOT_FIRST_ASK_LATER)
+  -- %context(When protocol in Defense-Mode: SHOOT_FIRST_ASK_LATER)
+		-- %name(be_aggressive)
 
 		-- %beforeall
 		procedure setup_protocol_be_aggressive;
