@@ -60,9 +60,9 @@ create or replace package sw_story_episode4_to_6 as
   -- %aftertest(rebels_flee)
   procedure rogue_one;
 
-  -- %context(episode4)
-  -- %displayname(Episode IV - A New Hope)
-
+  -- %context(Episode IV - A New Hope)
+  -- %name(episode4)
+    
     -- %beforeall(sw_story_base.epic_intro)
 
     -- %beforeeach(c3po_is_afraid)
@@ -81,8 +81,8 @@ create or replace package sw_story_episode4_to_6 as
 
   -- %endcontext
 
-  -- %context(episode5)
-  -- %displayname(Episode V - The Empire Strikes Back)
+  -- %context(Episode V - The Empire Strikes Back)
+  -- %name(episode5)
 
     -- %beforeall(sw_story_base.epic_intro,rebels_flee)
 
@@ -92,8 +92,8 @@ create or replace package sw_story_episode4_to_6 as
 
   -- %endcontext
 
-  -- %context(episode6)
-  -- %displayname(Episode VI - Return of the Jedi)
+  -- %context(Episode VI - Return of the Jedi)
+  -- %name(episode6)
 
     -- %beforeall(sw_story_base.epic_intro)
 
