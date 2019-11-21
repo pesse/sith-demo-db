@@ -1,5 +1,22 @@
--- Running a suite hierarchy - by selection
+-- Running a test-suite
+call ut.run('ut_deathstar_friend_or_foe');
+
+-- Running a suite by path
+call ut.run(':ut_deathstar');
+
+-- Running a suite by path - by selection
 select * from table(ut.run(':ut_deathstar'));
+
+-- Running only a part of hierarchy
+select * from table(ut.run(':ut_deathstar.rooms'));
+
+
+select * from table(ut.run(':ut_deathstar.defense.ut_deathstar_friend_or_foe'));
+
+select * from table(ut.run(':ut_deathstar.defense.ut_deathstar_security_welcome'));
+
+-- Running only a context inside a suite
+select * from table(ut.run(':ut_deathstar.defense.ut_deathstar_security_welcome.be_aggressive'));
 
 
 -- Adding a Parent-Suite
@@ -87,3 +104,8 @@ call ut.run('', a_tags=>'quick,long_running');
 
 -- Run all except a tag
 call ut.run('', a_tags=>'long_running,-very_long_running');
+
+
+-- Cleanup
+drop package ut_deathstar;
+drop package ut_defeat_rebels;
