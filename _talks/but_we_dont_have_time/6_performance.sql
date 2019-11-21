@@ -59,10 +59,31 @@ call ut.run(':ut_deathstar.rooms');
 -- It also works when calling a suite directly
 call ut.run('ut_deathstar_friend_or_foe');
 
+-- Moar storytelling with Nested contexts
+-- Let's get rid of that parent suite so we don't have to deal
+-- with the SLEEP
+drop package ut_deathstar;
+
+-- Let's have the Friend-or-Foe package organized differently (no content change!)
+select * from table(ut.run('ut_deathstar_friend_or_foe'));
+
+-- By Suitepath
+select * from table(ut.run(':ut_deathstar.defense.ut_deathstar_friend_or_foe'));
+
+-- Just the lightsaber context
+select * from table(ut.run(':ut_deathstar.defense.ut_deathstar_friend_or_foe.lightsaber'));
+
+-- Just the robe context
+select * from table(ut.run(':ut_deathstar.defense.ut_deathstar_friend_or_foe.no_lightsaber.robe'));
+
+
 
 
 
 -- How to deal with long-running tests
+
+
+
 create or replace package ut_defeat_rebels as
   -- %suite(Defeating the rebels - can take a while)
   -- %suitepath(imperium)
@@ -106,6 +127,12 @@ call ut.run('', a_tags=>'quick,long_running');
 call ut.run('', a_tags=>'long_running,-very_long_running');
 
 
+
+
+
+
+---------------------------------
 -- Cleanup
+----------------------------------
 drop package ut_deathstar;
 drop package ut_defeat_rebels;
