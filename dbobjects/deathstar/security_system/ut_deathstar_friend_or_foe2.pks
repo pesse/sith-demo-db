@@ -28,6 +28,12 @@ create or replace package ut_deathstar_friend_or_foe as
     -- %context(but is wearing an armor)
       -- %name(armor)
 
+      -- %test(that is white: FRIEND)
+      procedure armor_white_means_friend;
+      -- %test(that is orange: FOE)
+      procedure armor_orange_means_foe;
+      -- %test(that is blue/black: FOE)
+      procedure armor_blue_black_means_foe;
       -- %test(that is green: UNKNOWN)
       procedure armor_green_means_unknown;
     -- %endcontext;

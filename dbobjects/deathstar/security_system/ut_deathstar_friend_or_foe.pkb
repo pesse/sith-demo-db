@@ -34,6 +34,27 @@ create or replace package body ut_deathstar_friend_or_foe as
         .to_equal('UNKNOWN');
     end;
 
+  procedure armor_white_means_friend
+  as
+    begin
+      ut.expect(deathstar_security.friend_or_foe(new t_person_appearance(null, null, 'armor', 'white')))
+        .to_equal('FRIEND');
+    end;
+
+  procedure armor_orange_means_foe
+  as
+    begin
+      ut.expect(deathstar_security.friend_or_foe(new t_person_appearance(null, null, 'armor', 'orange')))
+        .to_equal('FOE');
+    end;
+
+  procedure armor_blue_black_means_foe
+  as
+    begin
+      ut.expect(deathstar_security.friend_or_foe(new t_person_appearance(null, null, 'armor', 'blue/black')))
+        .to_equal('FOE');
+    end;
+
   procedure armor_green_means_unknown
   as
     begin
