@@ -1,66 +1,35 @@
-create or replace package deathstar_security as
-  /* Decides whether a person is friend or foe,
-     based on their appearance
-   */
-  function friend_or_foe( i_person_data t_person_appearance )
-    return varchar2;
-end;
-/
-
-create or replace package body deathstar_security as
-  function friend_or_foe( i_person_data t_person_appearance )
-    return varchar2
-  as
-    begin
-      if ( i_person_data.weapon_type = 'lightsaber'
-        and i_person_data.weapon_color in ('red','orange')) then
-        return 'FRIEND';
-      end if;
-
-      if ( i_person_data.cloth_type = 'hooded_robe'
-        and i_person_data.cloth_color = 'black') then
-        return 'FRIEND';
-      end if;
-
-      if ( i_person_data.cloth_type = 'armor'
-        and i_person_data.cloth_color = 'white') then
-        return 'FRIEND';
-      end if;
-
-      return 'FOE';
-    end;
-end;
-/
-
 create or replace package ut_deathstar_friend_or_foe as
   -- %suite(Friend or Foe detection)
 	-- %suitepath(ut_deathstar.defense)
 
-  -- %test(Black robe means friend)
-  procedure robe_black_means_friend;
+  -- %test(Red lightsaber means friend)
+  procedure lightsaber_red_means_friend;
 
-  -- %test(Brown robe means foe)
-  procedure robe_brown_means_foe;
+  -- %test(Blue lightsaber means foe)
+  procedure lightsaber_blue_means_foe;
 end;
 /
 
 create or replace package body ut_deathstar_friend_or_foe as
-  procedure robe_black_means_friend
+  procedure lightsaber_red_means_friend
   as
     begin
-      ut.expect(deathstar_security.friend_or_foe(new t_person_appearance(null, null, 'hooded_robe', 'black')))
-        .to_equal('FRIEND');
+      ut.expect(
+        deathstar_security.friend_or_foe(
+          t_person_appearance('lightsaber', 'red', null, null))
+        ).to_equal('FRIEND');
     end;
 
-  procedure robe_brown_means_foe
+  procedure lightsaber_blue_means_foe
   as
     begin
-      ut.expect(deathstar_security.friend_or_foe(new t_person_appearance(null, null, 'hooded_robe', 'brown')))
-        .to_equal('FOE');
+      ut.expect(
+        deathstar_security.friend_or_foe(
+          t_person_appearance('lightsaber', 'blue', null, null))
+        ).to_equal('FOE');
     end;
-
 end;
-
+/
 
 
 call ut.run('ut_deathstar_friend_or_foe');
@@ -68,10 +37,19 @@ call ut.run('ut_deathstar_friend_or_foe');
 
 
 
--- Green armor + Red robe
+
+
+
+-- Robes
 create or replace package ut_deathstar_friend_or_foe as
   -- %suite(Friend or Foe detection)
 	-- %suitepath(ut_deathstar.defense)
+
+  -- %test(Red lightsaber means friend)
+  procedure lightsaber_red_means_friend;
+
+  -- %test(Blue lightsaber means foe)
+  procedure lightsaber_blue_means_foe;
 
   -- %test(Black robe means friend)
   procedure robe_black_means_friend;
@@ -81,48 +59,62 @@ create or replace package ut_deathstar_friend_or_foe as
 
   -- %test(Red robe means unknown)
   procedure robe_red_means_unknown;
-
-  -- %test(Green armor means unknown)
-  procedure armor_green_means_unknown;
 end;
 /
 
 
 create or replace package body ut_deathstar_friend_or_foe as
+  procedure lightsaber_red_means_friend
+  as
+    begin
+      ut.expect(
+        deathstar_security.friend_or_foe(
+          t_person_appearance('lightsaber', 'red', null, null))
+        ).to_equal('FRIEND');
+    end;
+
+  procedure lightsaber_blue_means_foe
+  as
+    begin
+      ut.expect(
+        deathstar_security.friend_or_foe(
+          t_person_appearance('lightsaber', 'blue', null, null))
+        ).to_equal('FOE');
+    end;
+
   procedure robe_black_means_friend
   as
     begin
-      ut.expect(deathstar_security.friend_or_foe(new t_person_appearance(null, null, 'hooded_robe', 'black')))
-        .to_equal('FRIEND');
+      ut.expect(
+        deathstar_security.friend_or_foe(
+          t_person_appearance(null, null, 'hooded_robe', 'black'))
+        ).to_equal('FRIEND');
     end;
 
   procedure robe_brown_means_foe
   as
     begin
-      ut.expect(deathstar_security.friend_or_foe(new t_person_appearance(null, null, 'hooded_robe', 'brown')))
-        .to_equal('FOE');
+      ut.expect(
+        deathstar_security.friend_or_foe(
+          t_person_appearance(null, null, 'hooded_robe', 'brown'))
+        ).to_equal('FOE');
     end;
 
   procedure robe_red_means_unknown
   as
     begin
-      ut.expect(deathstar_security.friend_or_foe(new t_person_appearance(null, null, 'hooded_robe', 'red')))
-        .to_equal('UNKNOWN');
+      ut.expect(
+        deathstar_security.friend_or_foe(
+          t_person_appearance(null, null, 'hooded_robe', 'red'))
+        ).to_equal('UNKNOWN');
     end;
-
-  procedure armor_green_means_unknown
-  as
-    begin
-      ut.expect(deathstar_security.friend_or_foe(new t_person_appearance(null, null, 'armor', 'green')))
-        .to_equal('UNKNOWN');
-    end;
-
 end;
 /
 
 
 
-call ut.run('ut_deathstar_friend_or_foe');
+select * from table(ut.run('ut_deathstar_friend_or_foe'));
+
 
 
 

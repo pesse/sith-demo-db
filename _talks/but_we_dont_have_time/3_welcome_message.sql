@@ -1,80 +1,3 @@
--- Make the state an input
-create or replace package protocol_security as
-
-  /* Returns the active DEFENSE_MODE of the deathstar
-   */
-  function active_defense_mode
-    return varchar2;
-
-end;
-/
-
-create or replace package body protocol_security as
-  function active_defense_mode
-    return varchar2
-  as
-    l_result varchar2(200);
-  begin
-    select p.defense_mode into l_result
-      from deathstar_protocols p
-        inner join deathstar_protocol_active pa
-          on p.id = pa.id;
-    return l_result;
-  end;
-end;
-/
-
--- Control state!
-create or replace package ut_deathstar_security_welcome as
-  -- %suite(Deathstar-Security: Welcome message)
-  -- %suitepath(ut_deathstar.defense)
-
-  -- %beforeall
-  procedure setup_protocol;
-
-  -- %test(We expect to receive the controlled protocol)
-  procedure we_get_the_expected_protocol;
-
-end;
-/
-
-create or replace package body ut_deathstar_security_welcome as
-  procedure setup_protocol
-  as
-    begin
-      insert into deathstar_protocols (id, label, defense_mode, alert_level, power_level)
-        values ( -1, 'Test-Protocol', 'toBeDefined', 'Not_Important', 80);
-
-      update deathstar_protocol_active set id = -1;
-    end;
-
-  procedure we_get_the_expected_protocol
-  as
-    begin
-      -- Set Defense-mode
-      update deathstar_protocols set defense_mode = 'BE_KIND' where id = -1;
-
-      ut.expect(protocol_security.active_defense_mode())
-        .to_equal('BE_KIND');
-
-      update deathstar_protocols set defense_mode = 'BE_SUSPICIOUS' where id = -1;
-
-      ut.expect(protocol_security.active_defense_mode())
-        .to_equal('BE_SUSPICIOUS');
-    end;
-end;
-/
-
-
-call ut.run('ut_deathstar_security_welcome');
-
-
-
-
-
-
-
-
 -- Prepare WELCOME functionality
 create or replace package protocol_security as
 
@@ -114,144 +37,8 @@ create or replace package body protocol_security as
 end;
 /
 
--- Implement DEFENSE_MODE: BE_KIND
-create or replace package ut_deathstar_security_welcome as
-  -- %suite(Deathstar-Security: Welcome message)
-  -- %suitepath(ut_deathstar.defense)
 
-  -- %beforeall
-  procedure setup_protocol;
-
-  -- %test(We expect to receive the controlled protocol)
-  procedure we_get_the_expected_protocol;
-
-  -- %context(When protocol in Defense-Mode: BE_KIND)
-		-- %name(be_kind)
-
-		-- %beforeall
-		procedure setup_protocol_be_kind;
-
-		-- %test(Friend is welcomed)
-		procedure be_kind_friend_is_welcomed;
-
-		-- %test(Foe is shouted at)
-		procedure be_kind_foe_is_shouted_at;
-
-		-- %test(Unknown is welcomed)
-		procedure be_kind_unknown_is_welcomed;
-	-- %endcontext
-
-end;
-/
-
-create or replace package body ut_deathstar_security_welcome as
-
-  -- We don't want to open up our API
-  -- therefore we use the known set of inputs of the friend/foe system
-  g_friend_appearance t_person_appearance := new t_person_appearance('lightsaber', 'red', null, null);
-  g_foe_appearance t_person_appearance := new t_person_appearance('lightsaber', 'blue', null, null);
-  g_unknown_appearance t_person_appearance := new t_person_appearance('blaster', 'red', 'armor', 'green');
-
-  procedure setup_protocol
-  as
-    begin
-      insert into deathstar_protocols (id, label, defense_mode, alert_level, power_level)
-        values ( -1, 'Test-Protocol', 'toBeDefined', 'Not_Important', 80);
-
-      update deathstar_protocol_active set id = -1;
-    end;
-
-  procedure we_get_the_expected_protocol
-  as
-    begin
-      -- Set Defense-mode
-      update deathstar_protocols set defense_mode = 'BE_KIND' where id = -1;
-
-      ut.expect(protocol_security.active_defense_mode())
-        .to_equal('BE_KIND');
-
-      update deathstar_protocols set defense_mode = 'BE_SUSPICIOUS' where id = -1;
-
-      ut.expect(protocol_security.active_defense_mode())
-        .to_equal('BE_SUSPICIOUS');
-    end;
-
-  procedure setup_protocol_be_kind
-  as
-    begin
-      update deathstar_protocols set defense_mode = 'BE_KIND' where id = -1;
-    end;
-
-  procedure be_kind_friend_is_welcomed
-  as
-    begin
-      ut.expect(protocol_security.welcome(g_friend_appearance))
-        .to_equal('Be welcome!');
-    end;
-
-  procedure be_kind_foe_is_shouted_at
-  as
-    begin
-      ut.expect(protocol_security.welcome(g_foe_appearance))
-        .to_equal('Die rebel scum!');
-    end;
-
-  procedure be_kind_unknown_is_welcomed
-  as
-    begin
-      ut.expect(protocol_security.welcome(g_unknown_appearance))
-        .to_equal('Be welcome!');
-    end;
-end;
-/
-
-
-call ut.run('ut_deathstar_security_welcome');
-
-
-
--- Implement the functionality
-create or replace package body protocol_security as
-  function active_defense_mode
-    return varchar2
-  as
-    l_result varchar2(200);
-  begin
-    select p.defense_mode into l_result
-      from deathstar_protocols p
-        inner join deathstar_protocol_active pa
-          on p.id = pa.id;
-    return l_result;
-  end;
-
-  function welcome( i_person_data t_person_appearance )
-    return varchar2
-  as
-    -- Make clear what's the input
-    l_friend_or_foe varchar2(10) := deathstar_security.friend_or_foe(i_person_data);
-    l_defense_mode varchar2(200) := active_defense_mode();
-    begin
-      -- What we know from our up-front analysis
-      if ( l_friend_or_foe = 'FRIEND' ) then
-        return 'Be welcome!';
-      elsif ( l_friend_or_foe = 'FOE' ) then
-        return 'Die rebel scum!';
-      end if;
-
-      case l_defense_mode
-        when 'BE_KIND' then
-          return 'Be welcome!';
-      end case;
-    end;
-end;
-/
-
-
-call ut.run('ut_deathstar_security_welcome');
-
-
-
--- Now implement tests for the other 2 protocols
+-- Complete Test Suite
 create or replace package ut_deathstar_security_welcome as
   -- %suite(Deathstar-Security: Welcome message)
   -- %suitepath(ut_deathstar.defense)
@@ -370,11 +157,10 @@ create or replace package body ut_deathstar_security_welcome as
         .to_equal('Be welcome!');
     end;
 
-  procedure setup_protocol_be_suspicious
-  as
-    begin
-      update deathstar_protocols set defense_mode = 'BE_SUSPICIOUS' where id = -1;
-    end;
+  procedure setup_protocol_be_suspicious as
+  begin
+    update deathstar_protocols set defense_mode = 'BE_SUSPICIOUS' where id = -1;
+  end;
 
   procedure be_suspicious_friend_is_welcomed
   as
@@ -427,7 +213,7 @@ end;
 /
 
 
-call ut.run('ut_deathstar_security_welcome');
+select * from table(ut.run('ut_deathstar_security_welcome'));
 
 
 
@@ -471,7 +257,6 @@ create or replace package body protocol_security as
     end;
 end;
 /
-
 
 
 call ut.run('ut_deathstar_security_welcome');
