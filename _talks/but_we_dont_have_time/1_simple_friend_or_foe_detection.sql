@@ -25,14 +25,16 @@
 
 -- Start
 create or replace package deathstar_security as
-  function friend_or_foe( i_person_data t_person_appearance )
-    return varchar2;
+  function friend_or_foe(
+    i_person_data t_person_appearance
+  ) return varchar2;
 end;
 /
 
 create or replace package body deathstar_security as
-  function friend_or_foe( i_person_data t_person_appearance )
-    return varchar2
+  function friend_or_foe(
+    i_person_data t_person_appearance
+  ) return varchar2
   as
     begin
       null;
@@ -47,7 +49,6 @@ end;
 
 
 -- Check
-
 
 
 
