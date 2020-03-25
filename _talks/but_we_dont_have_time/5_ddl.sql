@@ -1,6 +1,7 @@
 
 -- Let's try out the Room-View generator
-call deathstar_room_view_generator.create_view('room_test', sys.odcinumberlist(1));
+call deathstar_room_view_generator
+  .create_view('room_test', sys.odcinumberlist(1));
 
 select * from room_test;
 drop view room_test;
@@ -30,7 +31,9 @@ create or replace package body ut_deathstar_room_view_generator as
       insert into deathstar_rooms ( id, name, code, section_id )
         values ( -2, 'Test Room 2', 'TESTROOM2', -1);
 
-      deathstar_room_view_generator.create_view('room_test_view', sys.odcinumberlist(-1, -2));
+      deathstar_room_view_generator.create_view(
+        i_view_name => 'room_test_view',
+        i_room_ids => sys.odcinumberlist(-1, -2));
 
       -- Check if there is a view
       select count(*) into l_count
@@ -95,7 +98,9 @@ create or replace package body ut_deathstar_room_view_generator as
       insert into deathstar_rooms ( id, name, code, section_id )
         values ( -2, 'Test Room 2', 'TESTROOM2', -1);
 
-      deathstar_room_view_generator.create_view('room_test_view', sys.odcinumberlist(-1, -2));
+      deathstar_room_view_generator.create_view(
+        i_view_name => 'room_test_view',
+        i_room_ids => sys.odcinumberlist(-1, -2));
 
       -- Check if there is a view
       select count(*) into l_count
@@ -148,7 +153,9 @@ create or replace package body ut_deathstar_room_view_generator as
       insert into deathstar_rooms ( id, name, code, section_id )
         values ( -2, 'Test Room 2', 'TESTROOM2', -1);
 
-      deathstar_room_view_generator.create_view('room_test_view', sys.odcinumberlist(-1, -2));
+      deathstar_room_view_generator.create_view(
+        i_view_name => 'room_test_view',
+        i_room_ids => sys.odcinumberlist(-1, -2));
 
       -- Check if it is THE RIGHT view
       open l_expected for
