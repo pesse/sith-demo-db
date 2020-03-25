@@ -157,7 +157,9 @@ create or replace package body ut_deathstar_add_rooms as
 
       -- Compare them
       ut.expect(c_actual)
-        .to_equal(c_expect);
+        .to_equal(c_expect)
+        .exclude(ut_varchar2_list('ID'))
+        .join_by('NAME');
     end;
 end;
 /
