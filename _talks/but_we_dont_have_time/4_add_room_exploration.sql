@@ -237,6 +237,14 @@ end;
 call ut.run('ut_deathstar_add_rooms');
 
 
+
+
+
+
+
+
+
+
 -- Improve test for new functionality
 -- We want a new column "security_level"
 create or replace package body ut_deathstar_add_rooms as
