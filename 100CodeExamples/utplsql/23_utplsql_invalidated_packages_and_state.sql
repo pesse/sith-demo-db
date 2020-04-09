@@ -274,5 +274,34 @@ create or replace package body sith_manager as
 end;
 /
 
+-- Option 4: Use Functions
+create or replace package sith_manager as
+  function gc_default_name
+    return varchar2 deterministic;
+
+  procedure add_popular_sith( i_name varchar2 );
+end;
+/
+
+create or replace package body sith_manager as
+
+  function gc_default_name
+    return varchar2 deterministic as
+  begin
+    return 'Darth '||'Ora';
+  end;
+
+  procedure add_popular_sith( i_name varchar2 )
+  as
+  begin
+    insert into popular_sith (id, name )
+      values (
+        popular_sith_seq.nextval,
+        nvl(i_name, gc_default_name)
+      );
+  end;
+end;
+/
+
 call ut.run(':darkside');
 
