@@ -124,7 +124,7 @@ end;
 /
 
 create or replace package ut_sith_generator as
-  -- %suite(Sith A Generator)
+  -- %suite(Sith Generator)
   -- %suitepath(darkSide)
 
   -- %test(GENERATE_POPULAR_SITH creates correct number of Sith with name "<GIVEN_NAME> <COUNTER>")
