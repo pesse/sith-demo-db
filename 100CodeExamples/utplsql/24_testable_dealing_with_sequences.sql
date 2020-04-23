@@ -172,3 +172,35 @@ drop package ut_sith_manager;
 
 call sith_manager.add_popular_sith('Darth Vader', 42);
 call sith_manager.add_popular_sith('Darth Vader');
+
+-- Bonus Iteration: Avoid Unnecessary Sequence Increment
+create or replace package body sith_manager as
+  procedure add_popular_sith(
+    i_name varchar2)
+  as
+  begin
+    add_popular_sith(i_name, null);
+  end;
+
+  procedure add_popular_sith(
+    i_name varchar2,
+    i_id integer)
+    accessible by (package ut_sith_manager)
+  as
+    l_id integer := coalesce(i_id, popular_sith_seq.nextval);
+  begin
+    insert into popular_sith (id, name )
+      values (
+        l_id,
+        nvl(i_name, 'Darth Ora')
+      );
+  end;
+end;
+/
+
+-- Proof that the sequence doesn't increase anymore
+select popular_sith_seq.nextval from dual;
+select * from table(
+  ut.run('ut_sith_manager.add_sith_default_on_null_param')
+);
+select popular_sith_seq.currval from dual;
