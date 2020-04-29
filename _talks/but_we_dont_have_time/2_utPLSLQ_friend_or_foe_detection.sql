@@ -127,7 +127,7 @@ end;
 
 
 
-select * from table(ut.run('ut_deathstar_friend_or_foe'));
+call ut.run('ut_deathstar_friend_or_foe');
 
 
 
@@ -179,3 +179,11 @@ end;
 
 
 call ut.run('ut_deathstar_friend_or_foe');
+
+
+
+
+
+
+-- For those who prefer result sets
+select * from table(ut.run('ut_deathstar_friend_or_foe'));
