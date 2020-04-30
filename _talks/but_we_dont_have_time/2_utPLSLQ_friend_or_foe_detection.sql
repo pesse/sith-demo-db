@@ -44,7 +44,27 @@ call ut.run('ut_deathstar_friend_or_foe');
 
 
 
--- Robes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------
+-- Adding Robes <3 <3 <3
+-------------------------------------------
+
 create or replace package ut_deathstar_friend_or_foe as
   -- %suite(Friend or Foe detection)
 	-- %suitepath(ut_deathstar.defense)
@@ -65,6 +85,9 @@ create or replace package ut_deathstar_friend_or_foe as
   procedure robe_red_means_unknown;
 end;
 /
+
+
+
 
 
 create or replace package body ut_deathstar_friend_or_foe as
@@ -127,12 +150,44 @@ end;
 
 
 
+
+
+
+
+
+
+
+
+
 call ut.run('ut_deathstar_friend_or_foe');
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------
 -- Even bigger changes don't matter with a strong test suite
+-------------------------------------------------------------
+
 create or replace package body deathstar_security as
 
   const_friend  constant varchar2(20) := 'FRIEND';
@@ -178,6 +233,10 @@ end;
 
 
 
+
+
+
+
 call ut.run('ut_deathstar_friend_or_foe');
 
 
@@ -185,5 +244,42 @@ call ut.run('ut_deathstar_friend_or_foe');
 
 
 
--- For those who prefer result sets
-select * from table(ut.run('ut_deathstar_friend_or_foe'));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------
+-- Don't like DBMS_OUTPUT?
+-----------------------------------------
+
+select * from table(
+  ut.run('ut_deathstar_friend_or_foe')
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+

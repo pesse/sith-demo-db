@@ -1,5 +1,6 @@
-
+-------------------------------------------
 -- Let's first investigate what we have
+-------------------------------------------
 
 create or replace package deathstar_room_manager as
   subtype varchar2_nn is varchar2 not null;
@@ -13,13 +14,41 @@ create or replace package deathstar_room_manager as
 end;
 /
 
+
+
+
+
 select * from deathstar_sections;
 select * from deathstar_rooms;
 
 
 
 
--- Start adding a new test package for exploration
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------
+-- Start exploring via tests
+---------------------------------
+
 create or replace package ut_deathstar_add_rooms as
   -- %suite(Exploration: Adding rooms to the deathstar)
   -- %suitepath(ut_deathstar.rooms)
@@ -28,6 +57,7 @@ create or replace package ut_deathstar_add_rooms as
   procedure add_rooms;
 end;
 /
+
 
 create or replace package body ut_deathstar_add_rooms as
 
@@ -50,11 +80,55 @@ create or replace package body ut_deathstar_add_rooms as
 end;
 /
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 call ut.run('ut_deathstar_add_rooms');
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------
 -- Oh ... great. A test showing nothing.
+------------------------------------------
+
 select * from deathstar_sections;
 select * from deathstar_rooms;
 
@@ -64,22 +138,114 @@ select * from deathstar_rooms;
 
 
 
--- Let's try it again with foce-manual-rollback
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------
+-- Let's try it again with force-manual-rollback
+------------------------------------------------
+
 begin
   ut.run('ut_deathstar_add_rooms', a_force_manual_rollback=>true);
 end;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 select * from deathstar_sections;
 select * from deathstar_rooms;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------
 -- Oooooohhh... now we can see something.
+------------------------------------------
 select * from deathstar_rooms where section_id < 0;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- Conclusions:
--- > NR_IN_SECTION is filled automatically, based on the order of adding
--- > Code seems to be auto-generated from name when not provided
+-- > NR_IN_SECTION is filled automatically,
+--   based on the order of adding
+--
+-- > Code seems to be auto-generated
+--   from name when not provided
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -89,7 +255,33 @@ rollback;
 select * from deathstar_rooms where section_id < 0;
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------
 -- Let's add another room to verify our assumptions
+----------------------------------------------------
+
 create or replace package body ut_deathstar_add_rooms as
 
   procedure add_rooms
@@ -112,7 +304,29 @@ create or replace package body ut_deathstar_add_rooms as
 end;
 /
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------
 -- Let's investigate what happened again
+------------------------------------------
+
 begin
   ut.run('ut_deathstar_add_rooms', a_force_manual_rollback=>true);
 end;
@@ -120,13 +334,85 @@ end;
 select * from deathstar_rooms where section_id < 0;
 select * from deathstar_sections;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 rollback;
 
--- SQLcl
 
 
 
--- Now make it an approval test
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------
+-- SQLcl !!! +++ !!!
+---------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------
+-- Make it an approval test
+---------------------------------
+
 create or replace package body ut_deathstar_add_rooms as
 
   procedure add_rooms
@@ -164,7 +450,33 @@ create or replace package body ut_deathstar_add_rooms as
 end;
 /
 
+
 call ut.run('ut_deathstar_add_rooms');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -- 1. Join_by

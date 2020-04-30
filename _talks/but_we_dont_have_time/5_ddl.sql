@@ -1,13 +1,85 @@
-
+--------------------------------------------
 -- Let's try out the Room-View generator
+-------------------------------------------
 call deathstar_room_view_generator
   .create_view('room_test', sys.odcinumberlist(1));
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 select * from room_test;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 drop view room_test;
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------
 -- Let's test it!
+-------------------
+
 create or replace package ut_deathstar_room_view_generator as
   -- %suite(Room-View Generator)
 
@@ -16,6 +88,22 @@ create or replace package ut_deathstar_room_view_generator as
 
 end;
 /
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 create or replace package body ut_deathstar_room_view_generator as
 
@@ -45,28 +133,138 @@ end;
 /
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 call ut.run('ut_deathstar_room_view_generator');
 
 
--- Warnings!
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------
+-- Warnings! Let's try again!
+-------------------------------
 
 call ut.run('ut_deathstar_room_view_generator');
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------
 -- Even worse: Polluted tables!
+--------------------------------
 select * from deathstar_rooms where id < 0;
 select * from deathstar_sections where id < 0;
 select * from room_test_view;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------
 -- Let's clean up
+------------------
+
 delete from deathstar_rooms where id < 0;
 delete from deathstar_sections where id < 0;
 drop view room_test_view;
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------
 -- Dealing with DDL
+---------------------
+
 create or replace package ut_deathstar_room_view_generator as
   -- %suite(Room-View Generator)
   -- %rollback(manual)
@@ -82,6 +280,15 @@ create or replace package ut_deathstar_room_view_generator as
 
 end;
 /
+
+
+
+
+
+
+
+
+
 
 
 create or replace package body ut_deathstar_room_view_generator as
@@ -126,18 +333,83 @@ end;
 /
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------
 -- Now we can run it multiple times!
+-------------------------------------
+
 call ut.run('ut_deathstar_room_view_generator');
 
 
 
 
--- So ... what are we testing?
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------
+-- ??? So ... what are we testing ???
+--------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------
 -- Let's improve the test
+--------------------------
+
 create or replace package body ut_deathstar_room_view_generator as
 
   procedure create_view
@@ -189,10 +461,49 @@ end;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 call ut.run('ut_deathstar_room_view_generator');
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------
+-- Fix the Bug
+---------------
 
 create or replace package body deathstar_room_view_generator as
 
@@ -234,4 +545,35 @@ end;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 call ut.run('ut_deathstar_room_view_generator');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
