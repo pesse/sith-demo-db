@@ -275,9 +275,6 @@ create or replace package ut_deathstar_room_view_generator as
 
   procedure cleanup_test_view;
 
-  -- %afterall
-  procedure cleanup_data;
-
 end;
 /
 
@@ -319,11 +316,6 @@ create or replace package body ut_deathstar_room_view_generator as
     as
       begin
         execute immediate 'drop view room_test_view';
-      end;
-
-    procedure cleanup_data
-    as
-      begin
         delete from deathstar_rooms where id < 0;
         delete from deathstar_sections where id < 0;
         commit;
@@ -446,11 +438,6 @@ create or replace package body ut_deathstar_room_view_generator as
     as
       begin
         execute immediate 'drop view room_test_view';
-      end;
-
-    procedure cleanup_data
-    as
-      begin
         delete from deathstar_rooms where id < 0;
         delete from deathstar_sections where id < 0;
         commit;
