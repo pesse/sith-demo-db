@@ -48,6 +48,18 @@ call ut.run('ut_deathstar_friend_or_foe');
 
 
 
+select * from table(
+  ut.run('ut_deathstar_friend_or_foe')
+);
+
+
+
+
+
+
+
+
+
 
 
 
@@ -113,36 +125,24 @@ create or replace package body ut_deathstar_friend_or_foe as
     ).to_equal('FOE');
   end;
 
-  procedure robe_black_means_friend
-  as
+  procedure robe_black_means_friend as
   begin
     ut.expect(
-      deathstar_security.friend_or_foe(
-        t_person_appearance(
-          null, null, 'hooded_robe', 'black')
-      )
+      deathstar_security.friend_or_foe(t_person_appearance(null, null, 'hooded_robe', 'black'))
     ).to_equal('FRIEND');
   end;
 
-  procedure robe_brown_means_foe
-  as
+  procedure robe_brown_means_foe as
   begin
     ut.expect(
-      deathstar_security.friend_or_foe(
-        t_person_appearance(
-          null, null, 'hooded_robe', 'brown')
-      )
+      deathstar_security.friend_or_foe(t_person_appearance(null, null, 'hooded_robe', 'brown'))
     ).to_equal('FOE');
   end;
 
-  procedure robe_red_means_unknown
-  as
+  procedure robe_red_means_unknown as
   begin
     ut.expect(
-      deathstar_security.friend_or_foe(
-        t_person_appearance(
-          null, null, 'hooded_robe', 'red')
-      )
+      deathstar_security.friend_or_foe(t_person_appearance(null, null, 'hooded_robe', 'red'))
     ).to_equal('UNKNOWN');
   end;
 end;
@@ -215,16 +215,6 @@ create or replace package body deathstar_security as
           return const_unknown;
         else
           return const_foe;
-        end if;
-      end if;
-
-      if ( i_person_data.cloth_type = 'armor' ) then
-        if ( i_person_data.cloth_color = 'white') then
-          return const_friend;
-        elsif ( i_person_data.cloth_color in ('blue/black', 'orange')) then
-          return const_foe;
-        else
-          return const_unknown;
         end if;
       end if;
 
