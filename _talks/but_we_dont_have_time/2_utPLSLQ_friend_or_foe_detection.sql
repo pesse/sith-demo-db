@@ -159,7 +159,9 @@ end;
 
 
 
-call ut.run('ut_deathstar_friend_or_foe');
+select * from table(
+  ut.run('ut_deathstar_friend_or_foe')
+);
 
 
 
@@ -236,50 +238,8 @@ end;
 
 
 
-
-call ut.run('ut_deathstar_friend_or_foe');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
------------------------------------------
--- Don't like DBMS_OUTPUT?
------------------------------------------
-
 select * from table(
   ut.run('ut_deathstar_friend_or_foe')
 );
-
-
-
-
-
-
-
-
-
-
-
-
 
 

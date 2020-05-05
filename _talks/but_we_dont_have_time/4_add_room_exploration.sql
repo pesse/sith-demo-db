@@ -19,6 +19,7 @@ end;
 
 
 select * from deathstar_sections;
+
 select * from deathstar_rooms;
 
 
@@ -102,8 +103,9 @@ end;
 
 
 
-
-call ut.run('ut_deathstar_add_rooms');
+select * from table(
+  ut.run('ut_deathstar_add_rooms')
+);
 
 
 
@@ -130,6 +132,7 @@ call ut.run('ut_deathstar_add_rooms');
 ------------------------------------------
 
 select * from deathstar_sections;
+
 select * from deathstar_rooms;
 
 
@@ -163,105 +166,17 @@ select * from deathstar_rooms;
 begin
   ut.run('ut_deathstar_add_rooms', a_force_manual_rollback=>true);
 end;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/
 
 select * from deathstar_sections;
+
 select * from deathstar_rooms;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-------------------------------------------
--- Oooooohhh... now we can see something.
-------------------------------------------
 select * from deathstar_rooms where section_id < 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- Conclusions:
--- > NR_IN_SECTION is filled automatically,
---   based on the order of adding
---
--- > Code seems to be auto-generated
---   from name when not provided
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 -- Don't forget to rollback
 rollback;
-
-select * from deathstar_rooms where section_id < 0;
-
-
-
-
-
-
-
-
-
 
 
 
@@ -332,37 +247,28 @@ begin
 end;
 
 select * from deathstar_rooms where section_id < 0;
-select * from deathstar_sections;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 rollback;
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+-- Wouldn't be it cool to have a possibility to script that current state?
+---------------------------------------------------------------------------
 
 
 
@@ -384,7 +290,7 @@ rollback;
 ---------------------
 -- SQLcl !!! +++ !!!
 ---------------------
-
+-- exec ut.run('ut_deathstar_add_rooms', a_force_manual_rollback=>true);
 
 
 
@@ -450,8 +356,9 @@ create or replace package body ut_deathstar_add_rooms as
 end;
 /
 
-
-call ut.run('ut_deathstar_add_rooms');
+select * from table(
+  ut.run('ut_deathstar_add_rooms')
+);
 
 
 
