@@ -102,8 +102,8 @@ create or replace view v_groups_2 as
      | |.' '. \.........|
      | ( <)  ||:       :|_
       \ '._.' | :.....: |_(o
-       '-\_   \ .------./              ZU UNTERSCHIEDLICH!
-       _   \   ||.---.||  _            BÖSES ERWACHEN ERWARTET!
+       '-\_   \ .------./              TOO DIFFERENT!
+       _   \   ||.---.||  _            BAD AWAKENING EXPECTED!
       / \  '-._|/\n~~\n' | \
      (| []=.--[===[()]===[) |
      <\_/  \_______/ _.' /_/
@@ -128,17 +128,21 @@ snd <]   \>            \_____.>
 
 
 
--- Vergleich
-(select * from v_groups
-minus
-select * from v_groups_2)
+-- Comparison
+(
+  select * from v_groups
+  minus
+  select * from v_groups_2
+)
 union all
-(select * from v_groups_2
-minus
-select * from v_groups);
+(
+  select * from v_groups_2
+  minus
+  select * from v_groups
+);
 
 
--- Identisch!
+-- identical!
 
 
 
@@ -204,7 +208,7 @@ create or replace view v_groups as
 
 
 
--- Aber utPLSQL?
+-- But utPLSQL?
 
 
 
@@ -218,7 +222,17 @@ create or replace view v_groups as
 
 
 
--- Gute Gewohnheiten....
+
+
+
+
+
+
+
+
+
+
+-- Good habits....
 call ut.run();
 
 

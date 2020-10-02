@@ -1,5 +1,4 @@
 create or replace package ut_groups as
-
   -- %suite(Groups View V_GROUPS)
 
   -- %test(Update group-name via view)
@@ -23,9 +22,9 @@ end;
 
 
 create or replace package body ut_groups as
-  procedure update_group_name
-  as
-    l_actual_name v_groups.group_name%type;
+
+  procedure update_group_name as
+    l_actual_name varchar2(100);
     begin
       -- Arrange
       insert into groups (id, group_type_fk, parent_fk, honor_name)
@@ -53,7 +52,7 @@ end;
 
 
 
-call ut.run('ut_groups');
+select * from table(ut.run('ut_groups'));
 
 
 
@@ -76,11 +75,14 @@ call ut.run('ut_groups');
 
 
 
-create or replace trigger trg_save_v_groups instead of update or insert or delete on v_groups
+create or replace trigger trg_save_v_groups
+instead of update or insert or delete on v_groups
 for each row
   declare
   begin
-    if (:new.group_name is not null and (:old.group_name is null or :new.group_name <> :old.group_name)) then
+    if (:new.group_name is not null
+        and (:old.group_name is null or :new.group_name <> :old.group_name))
+    then
       update groups set honor_name = :new.group_name where id = :new.id;
     end if;
   end;
@@ -90,7 +92,7 @@ for each row
 
 
 
-call ut.run('ut_groups');
+select * from table(ut.run('ut_groups'));
 
 
 
