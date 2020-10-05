@@ -140,13 +140,17 @@ ____________________________________|  """|"____________________________________
 
 
 
-select group_name, leader_name, leader_rank_label from v_groups where id = 775;
+select group_name, leader_name, leader_rank_label
+  from v_groups
+  where id = 775;
 
 
 
 
 
-update v_groups set group_name = 'Revan''s ghosts' where id = 775;
+update v_groups set
+  group_name = 'Revan''s ghosts'
+  where id = 775;
 
 
 
