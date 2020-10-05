@@ -501,9 +501,9 @@ call ut.run('ut_group_util');
 
 
 
--- Success ist das falsche Ergebnis!
+-- Success is the wrong result!
 
--- Vorhersage als Übung
+-- You can do a little game of prediction to challenge yourself
 
 
 
@@ -573,7 +573,7 @@ call ut.run('ut_group_util');
 
 
 /****************
-* Anpassen des Tests
+* Adaption of test
  ****************/
 
 create or replace package ut_group_util as
