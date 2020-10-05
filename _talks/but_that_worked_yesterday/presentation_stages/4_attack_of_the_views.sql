@@ -233,7 +233,7 @@ create or replace view v_groups as
 
 
 -- Good habits....
-call ut.run();
+select * from table(ut.run());
 
 
 
