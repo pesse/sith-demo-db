@@ -79,7 +79,7 @@ end;
 
 
 
--- Complete (Backup)
+-- Complete
 create or replace package deathstar_security as
   /* Decides whether a person is friend or foe,
      based on their appearance
@@ -90,34 +90,52 @@ end;
 /
 
 create or replace package body deathstar_security as
+
+  const_friend constant varchar2(10) := 'FRIEND';
+  const_foe constant varchar2(10) := 'FOE';
+  const_unknown constant varchar2(10) := 'UNKNOWN';
+
   function friend_or_foe( i_person_data t_person_appearance )
     return varchar2
   as
     begin
-      if ( i_person_data.weapon_type = 'lightsaber'
-        and i_person_data.weapon_color in ('red','orange')) then
-        return 'FRIEND';
+      if ( i_person_data.weapon_type = 'lightsaber') then
+        if ( i_person_data.weapon_color in ('red','orange')) then
+          return const_friend;
+        else
+          return const_foe;
+        end if;
       end if;
 
-      if ( i_person_data.cloth_type = 'hooded_robe'
-        and i_person_data.cloth_color = 'black') then
-        return 'FRIEND';
+      if ( i_person_data.cloth_type = 'hooded_robe' ) then
+        if ( i_person_data.cloth_color = 'black') then
+          return const_friend;
+        elsif ( i_person_data.cloth_color = 'red') then
+          return const_unknown;
+        else
+          return const_foe;
+        end if;
       end if;
 
-      if ( i_person_data.cloth_type = 'armor'
-        and i_person_data.cloth_color = 'white') then
-        return 'FRIEND';
+      if ( i_person_data.cloth_type = 'armor' ) then
+        if ( i_person_data.cloth_color = 'white') then
+          return const_friend;
+        elsif ( i_person_data.cloth_color in ('blue/black', 'orange')) then
+          return const_foe;
+        else
+          return const_unknown;
+        end if;
       end if;
 
-      return 'FOE';
+      return const_unknown;
     end;
 end;
 /
 
-select deathstar_security.friend_or_foe( t_person_appearance('lightsaber', 'red', 'something', 'something') ) from dual;
-select deathstar_security.friend_or_foe( t_person_appearance('lightsaber', 'blue', 'something', 'something') ) from dual;
-select deathstar_security.friend_or_foe( t_person_appearance('blaster', 'blue', 'hooded_robe', 'black') ) from dual;
-select deathstar_security.friend_or_foe( t_person_appearance('blaster', 'blue', 'hooded_robe', 'brown') ) from dual;
-select deathstar_security.friend_or_foe( t_person_appearance('blaster', 'blue', 'armor', 'white') ) from dual;
-select deathstar_security.friend_or_foe( t_person_appearance('blaster', 'blue', 'armor', 'orange') ) from dual;
-select deathstar_security.friend_or_foe( t_person_appearance('blaster', 'blue', 'armor', 'blue') ) from dual;
+select 'Red lightsaber' test, deathstar_security.friend_or_foe( t_person_appearance('lightsaber', 'red', 'something', 'something') ) friend_or_foe from dual union all
+select 'Blue lightsaber',     deathstar_security.friend_or_foe( t_person_appearance('lightsaber', 'blue', 'something', 'something') ) from dual union all
+select 'Black hooded robe',   deathstar_security.friend_or_foe( t_person_appearance('blaster', 'blue', 'hooded_robe', 'black') ) from dual union all
+select 'Brown hooded robe',   deathstar_security.friend_or_foe( t_person_appearance('blaster', 'blue', 'hooded_robe', 'brown') ) from dual union all
+select 'White armor',         deathstar_security.friend_or_foe( t_person_appearance('blaster', 'blue', 'armor', 'white') ) from dual union all
+select 'Orange armor',        deathstar_security.friend_or_foe( t_person_appearance('blaster', 'blue', 'armor', 'orange') ) from dual union all
+select 'Blue armor',          deathstar_security.friend_or_foe( t_person_appearance('blaster', 'blue', 'armor', 'blue') ) from dual;
