@@ -14,7 +14,7 @@ with
   ),
   /* Here is where the magic happens: a recursive query
    */
-  elements(start_pos, end_pos, element, element_no, text) as (
+  element_positions(start_pos, end_pos, element_no, text) as (
     /* We start with the first line, which also
        is our staring point and anchor
      */
@@ -27,16 +27,8 @@ with
         nullif(instr(text, config.delimiter),0), -- NULL if delimiter not found
         length(text)+1
       ) as end_pos,
-      -- Line: all text between start and end position
-      substr(
-        text,
-        1,
-        coalesce(
-          nullif(instr(text, config.delimiter),0),
-          length(text)+1
-        )-1) as line,
       -- Line-Number: obvious
-      1 as line_no,
+      1 as element_no,
       -- We pass the text along so we don't need to
       -- select it every time from the DDL query
       text
@@ -54,18 +46,18 @@ with
           nullif(instr(text, config.delimiter, prev.end_pos+1),0), -- NULL if delimiter not found
           length(text)+1
         ) as end_pos,
-        substr(
-          prev.text,
-          prev.end_pos+1,
-          coalesce(
-            nullif(instr(text, config.delimiter, prev.end_pos+1),0),
-            length(text)+1
-          )-(prev.end_pos+1)
-        ) as line,
         prev.element_no+1,
         prev.text
-    from elements prev, config
+    from element_positions prev, config
     -- We add lines as long as there have been delimiters
     where instr(prev.text, config.delimiter, prev.start_pos) > 0
+  ),
+  /* In order to avoid code duplication, we do the final slicing
+     in a separate subquery
+   */
+  elements as (
+    select ep.*,
+      substr(text, start_pos, end_pos-start_pos) element
+      from element_positions ep
   )
 select element_no, element from elements;
