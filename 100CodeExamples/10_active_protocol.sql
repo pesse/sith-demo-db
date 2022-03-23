@@ -73,4 +73,6 @@ select * from v_deathstar_protocols;
 /******************************
 * CLEANUP
  *****************************/
+drop view v_deathstar_protocols;
+drop table deathstar_protocol_active;
 drop table deathstar_protocols;
