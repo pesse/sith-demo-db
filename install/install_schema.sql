@@ -9,7 +9,7 @@ define sith_user       = &1
 define sith_password   = &2
 define sith_tablespace = &3
 
-prompt Creating utPLSQL user &&sith_user
+prompt Creating Sithdb user &&sith_user
 
 create user &sith_user identified by &sith_password default tablespace &sith_tablespace quota unlimited on &sith_tablespace;
 
